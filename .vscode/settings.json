@@ -1,0 +1,23 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPath": "/home/zhaoly/esp/v5.2.3/esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.port": "/dev/ttyACM0",
+    "idf.toolsPath": "/home/zhaoly/.espressif",
+    "idf.flashType": "UART",
+    "files.associations": {
+        "esp_lvgl_port.h": "c",
+        "task.h": "c",
+        "lvgl.h": "c",
+        "i2c_master.h": "c",
+        "freertos.h": "c",
+        "esp_lcd_panel_ops.h": "c",
+        "esp_log.h": "c",
+        "lcd_init.h": "c",
+        "esp_lcd_panel_vendor.h": "c",
+        "bsp_mq2.h": "c",
+        "gpio.h": "c"
+    }
+}
