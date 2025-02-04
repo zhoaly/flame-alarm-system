@@ -18,5 +18,6 @@
 
 void BEEP_init(void);
 void BEEP_Set_duty(uint32_t duty);
+void beep_task();
 
 #endif

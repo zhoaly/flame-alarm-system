@@ -13,6 +13,8 @@ extern esp_lcd_panel_io_handle_t io_handle;
 
 extern QueueHandle_t uart_report_cmd_quere;
 
+QueueHandle_t LVGLQueuehandle;//lvgl队列句柄
+
 lv_obj_t *scr;      // 显示器对象
 lv_obj_t *scr_child_1;
 lv_obj_t *scr_child_2;
@@ -57,6 +59,8 @@ lv_disp_t *disp = NULL;//屏幕对象
 
 TaskHandle_t lvgl_task_Handle;
 
+lvgl_Queue lvgl_receive;//lvgl队列
+
 lv_timer_t *timer;  // 定时器对象
 
 static const char *TAG = "LVGL_init_my";
@@ -70,9 +74,29 @@ void my_time_cb(lv_timer_t *parm) {
     //lv_obj_scroll_by(panel, 64, 0, LV_ANIM_ON);
 }
 
-//串口队列读取操作函数
-static void lvgl_task(){
+
+            
+
+
+//读取LVGLQueuehandle任务 接收硬件数据
+static void lvgl_task_queue(){
+    
+    while (1)
+    {
+        xQueueReceive(LVGLQueuehandle,&lvgl_receive,(TickType_t)portMAX_DELAY);
+        ESP_LOGI(TAG, "lvgl_receive:%ld,mq2 %d:",lvgl_receive.time,lvgl_receive.MQ2_value);
+        if (new_label1!=NULL&&child_pag_flag == 1)
+        {
+            lv_label_set_text_fmt(new_label1, "time:%ld", lvgl_receive.time);
+        }
+    }
+}
+
+
+//串口队列读取操作任务
+static void lvgl_task_uart(){
     uart_report_type uart_output;
+
     while (1)
     {
         xQueueReceive(uart_report_cmd_quere,(void *)&uart_output,(TickType_t)portMAX_DELAY);
@@ -170,7 +194,10 @@ lv_disp_t* LVGL_Init_my(){
     lvgl_style_init();//初始化样式
     lvgl_scr_init();
 
-    xTaskCreatePinnedToCore(lvgl_task,"lvgl_task",4096,NULL,2,&lvgl_task_Handle,0);
+    LVGLQueuehandle = xQueueCreate(10, sizeof(lvgl_Queue));//创建队列
+
+    xTaskCreatePinnedToCore(lvgl_task_uart,"lvgl_task_uart",4096,NULL,2,&lvgl_task_Handle,0);
+    xTaskCreatePinnedToCore(lvgl_task_queue,"lvgl_task_queue",4096,NULL,2,&lvgl_task_Handle,0);
     return disp;
 }
 

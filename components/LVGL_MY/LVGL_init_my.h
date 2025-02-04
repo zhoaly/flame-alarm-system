@@ -4,6 +4,13 @@
 #include"lvgl.h"
 #include "esp_lvgl_port.h"
 
+typedef struct {
+    unsigned int MQ2_value;      // MQ2传感器值
+    unsigned int flame_value;   // 火焰传感器值
+    uint32_t time;              // 时间戳
+} lvgl_Queue;
+
+
 typedef enum {
     INDEX=1,
     LEFT,

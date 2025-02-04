@@ -40,7 +40,9 @@
 void delay_us(unsigned int us);
 void delay_ms(unsigned int ms);
 void ADC_Init(void);
+void ADC_task();
 unsigned int Get_Adc_Value(adc1_channel_t channel);
 unsigned int Get_MQ2_Percentage_value(void);
 unsigned int Get_Flame_Percentage_value(void);
+
 #endif

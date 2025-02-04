@@ -1,6 +1,8 @@
 #include "lvgl.h"
 #include "lvgl_demo_ui.h"
+#include "LVGL_init_my.h"
 #include "esp_log.h"
+#include "freertos/FreeRTOS.h"
 
 extern lv_disp_t *disp; // 显示器对象
 
@@ -44,6 +46,10 @@ extern lv_style_t style_button_focu;         // 按钮处于焦点时的样式
 extern lv_style_t style_button_default;      // 按钮的默认样式
 extern lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 extern lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
+
+
+extern QueueHandle_t LVGLQueuehandle;//lvgl队列句柄
+extern lvgl_Queue lvgl_receive;
 
 static const char *TAG = "LVGL_UI";
 
@@ -166,6 +172,7 @@ void lvgl_demo_ui_child_1(){
     lv_obj_clean(scr); // 清除上个界面
     lv_scr_load_anim(scr_child_1, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
+
     panel_child_1 = lv_obj_create(scr_child_1);
     lv_obj_align(panel_child_1, LV_ALIGN_CENTER, 0, 0);
     lv_obj_add_style(panel_child_1, &style_panel, 0); // 设置面板样式
@@ -176,7 +183,8 @@ void lvgl_demo_ui_child_1(){
     lv_obj_add_event_cb(new_btn1, btn_event_handler, LV_EVENT_PRESSED, NULL); // 注册回调（返回主界面）
 
     new_label1 = lv_label_create(new_btn1);
-    lv_label_set_text_fmt(new_label1, "btn %d", 1);
+    lv_label_set_text_fmt(new_label1, "time:%ld", lvgl_receive.time);
+
 }
 
 /* 子界面2的 UI函数 */

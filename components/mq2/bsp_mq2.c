@@ -1,9 +1,16 @@
 #include "bsp_mq2.h"
 #include "esp_log.h"
-
+#include "LVGL_init_my.h" 
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 static const char *TAG = "adc";
 esp_adc_cal_characteristics_t *adc_chars;
+
+TaskHandle_t MQ2Handle;
+
+extern QueueHandle_t LVGLQueuehandle;
+extern bool flag_beep;
 
 void delay_ms(unsigned int ms)
 {
@@ -23,6 +30,8 @@ void delay_us(unsigned int us)
  * 作       者：LC
  * 备       注：无
 ******************************************************************/
+
+
 void ADC_Init(void)
 {
     adc1_config_width(width);// 12位分辨率
@@ -37,8 +46,12 @@ void ADC_Init(void)
     adc_chars = calloc(1, sizeof(esp_adc_cal_characteristics_t));
     // 对 ADC 特性进行初始化，使其能够正确地计算转换结果和补偿因素
     esp_adc_cal_characterize(unit, atten, width, DEFAULT_VREF, adc_chars);
+
+    xTaskCreatePinnedToCore(ADC_task, "ADC_task", 4096, NULL, 2, &MQ2Handle, 1);//创建任务
 }
  
+
+
 
 /******************************************************************
  * 函 数 名 称：Get_Adc_Dma_Value
@@ -102,4 +115,29 @@ unsigned int Get_Flame_Percentage_value(void)
     Percentage_value = ((float)adc_new/adc_max) * 100;
     
     return Percentage_value;
+}
+
+void ADC_task() {
+    lvgl_Queue adc;
+
+    while (1) {
+        adc.MQ2_value = Get_MQ2_Percentage_value();   // 获取MQ2传感器的百分比值
+        adc.flame_value = Get_Flame_Percentage_value(); // 获取火焰传感器的百分比值
+        adc.time = xTaskGetTickCount();              // 获取当前任务的滴答计数
+
+        // 将传感器数据发送到OLED队列
+        if (LVGLQueuehandle!=NULL) {
+            xQueueSend(LVGLQueuehandle, &adc, 0);
+            //ESP_LOGI(TAG,"lvgl queue send");
+        }
+
+        // 判断是否需要激活蜂鸣器
+        if (adc.MQ2_value > 50 || adc.flame_value < 90) {
+            flag_beep = 1;
+        } else {
+            flag_beep = 0;
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
 }

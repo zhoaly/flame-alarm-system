@@ -1,4 +1,9 @@
 #include "BEEP.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
+bool flag_beep = 0;
+TaskHandle_t BEEPHandle;
 
 void BEEP_init(void)
 {
@@ -25,10 +30,7 @@ void BEEP_init(void)
     };
 
     ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel));
-
-
-
-    /* 初始化渐变模式 */
+    xTaskCreatePinnedToCore(beep_task, "beep_task", 4096, NULL, 3, &BEEPHandle, 1);
 
 }
 
@@ -38,5 +40,19 @@ void BEEP_Set_duty(uint32_t duty){
     ESP_ERROR_CHECK(ledc_set_duty(BEEP_MODE, BEEP_CHANNEL, duty));
     ESP_ERROR_CHECK(ledc_update_duty(BEEP_MODE, BEEP_CHANNEL));
 
+}
+
+
+void beep_task() {
+    while (1) {
+        if (flag_beep == 1) {
+            BEEP_Set_duty(4000);  // 激活蜂鸣器
+        } else {
+            BEEP_Set_duty(0);    // 关闭蜂鸣器
+        }
+        vTaskDelay(pdMS_TO_TICKS(300));
+        BEEP_Set_duty(0);        // 确保蜂鸣器关闭
+        vTaskDelay(pdMS_TO_TICKS(300));
+    }
 }
 
