@@ -1,4 +1,4 @@
-# Install script for directory: /home/zhaoly/esp/v5.2.3/esp-idf/components/json
+# Install script for directory: /home/zhaoly/esp/v5.4/esp-idf/components/json
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

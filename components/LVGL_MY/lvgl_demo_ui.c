@@ -123,14 +123,14 @@ static void scroll_event_handler(lv_event_t *e) {
 void lvgl_demo_ui() {
     ESP_LOGI(TAG, "lvgl_demo_ui");
 
-    // 清除上个界面，并加载主界面（这里假设 scr_child_1 上次为子界面）
+    // 清除上个界面，并加载主界面
     lv_obj_clean(scr_child_1);
     lv_obj_clean(scr_child_2);
     lv_obj_clean(scr_child_3);
     lv_obj_clean(scr_child_4);
     lv_obj_clean(scr_child_5);//清除所有子界面
     
-    lv_scr_load_anim(scr, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 0, false);
+    lv_scr_load_anim(scr, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 0, true);
 
     /* 创建容器面板（用于放置按钮） */
     panel = lv_obj_create(scr);
@@ -164,7 +164,7 @@ void lvgl_demo_ui_child_1(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_1");
 
     lv_obj_clean(scr); // 清除上个界面
-    lv_scr_load_anim(scr_child_1, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, false);
+    lv_scr_load_anim(scr_child_1, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
     panel_child_1 = lv_obj_create(scr_child_1);
     lv_obj_align(panel_child_1, LV_ALIGN_CENTER, 0, 0);
@@ -184,7 +184,7 @@ void lvgl_demo_ui_child_2(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_2");
 
     lv_obj_clean(scr); // 清除上个界面
-    lv_scr_load_anim(scr_child_2, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, false);
+    lv_scr_load_anim(scr_child_2, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
     panel_child_2 = lv_obj_create(scr_child_2);
     lv_obj_align(panel_child_2, LV_ALIGN_CENTER, 0, 0);
@@ -204,7 +204,7 @@ void lvgl_demo_ui_child_3(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_3");
 
     lv_obj_clean(scr); // 清除上个界面
-    lv_scr_load_anim(scr_child_3, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, false);
+    lv_scr_load_anim(scr_child_3, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
     panel_child_3 = lv_obj_create(scr_child_3);
     lv_obj_align(panel_child_3, LV_ALIGN_CENTER, 0, 0);
@@ -224,7 +224,7 @@ void lvgl_demo_ui_child_4(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_4");
 
     lv_obj_clean(scr); // 清除上个界面
-    lv_scr_load_anim(scr_child_4, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, false);
+    lv_scr_load_anim(scr_child_4, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
     panel_child_4 = lv_obj_create(scr_child_4);
     lv_obj_align(panel_child_4, LV_ALIGN_CENTER, 0, 0);
@@ -244,7 +244,7 @@ void lvgl_demo_ui_child_5(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_5");
 
     lv_obj_clean(scr); // 清除上个界面
-    lv_scr_load_anim(scr_child_5, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, false);
+    lv_scr_load_anim(scr_child_5, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
     panel_child_5 = lv_obj_create(scr_child_5);
     lv_obj_align(panel_child_5, LV_ALIGN_CENTER, 0, 0);

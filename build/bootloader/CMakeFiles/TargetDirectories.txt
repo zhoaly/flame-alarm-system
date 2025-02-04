@@ -1,8 +1,8 @@
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/rebuild_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/edit_cache.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/uf2.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/dfu-flash.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/dfu.dir
-/home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/size-components.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/menuconfig.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/confserver.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/bootloader.elf.dir
@@ -12,11 +12,12 @@
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/gen_project_binary.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/dfu-list.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/app.dir
-/home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/uf2.dir
-/home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/erase_flash.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/uf2-app.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/erase_flash.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/size-files.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/size.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/merge-bin.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/CMakeFiles/size-components.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/CMakeFiles/rebuild_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/CMakeFiles/edit_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/xtensa/CMakeFiles/rebuild_cache.dir
@@ -54,6 +55,8 @@
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/efuse/CMakeFiles/efuse_common_table.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/efuse/CMakeFiles/efuse-common-table.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/efuse/CMakeFiles/__idf_efuse.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_security/CMakeFiles/rebuild_cache.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_security/CMakeFiles/edit_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_system/CMakeFiles/edit_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_system/CMakeFiles/rebuild_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_system/CMakeFiles/__idf_esp_system.dir
@@ -62,6 +65,8 @@
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_hw_support/CMakeFiles/__idf_esp_hw_support.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_hw_support/port/esp32s3/CMakeFiles/rebuild_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_hw_support/port/esp32s3/CMakeFiles/edit_cache.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_hw_support/lowpower/CMakeFiles/rebuild_cache.dir
+/home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_hw_support/lowpower/CMakeFiles/edit_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_common/CMakeFiles/rebuild_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_common/CMakeFiles/edit_cache.dir
 /home/zhaoly/flame_alarm_system/build/bootloader/esp-idf/esp_common/CMakeFiles/__idf_esp_common.dir

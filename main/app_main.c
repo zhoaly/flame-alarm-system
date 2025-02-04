@@ -22,13 +22,7 @@
 
 static const char *TAG = "main";
 
-extern esp_lcd_panel_handle_t panel_handle;
-extern esp_lcd_panel_io_handle_t io_handle;
-
-uint8_t temp[8][128];
-
 // 任务和同步句柄
-TaskHandle_t OLEDHandle;
 TaskHandle_t MQ2Handle;
 TaskHandle_t BEEPHandle;
 TaskHandle_t FLAMEHandle;
@@ -58,45 +52,6 @@ void beep_task() {
         vTaskDelay(pdMS_TO_TICKS(300));
         BEEP_Set_duty(0);        // 确保蜂鸣器关闭
         vTaskDelay(pdMS_TO_TICKS(300));
-    }
-}
-
-// 更新OLED显示内容的任务
-void OLED_task() {
-    static uint32_t temp_mq2_value = 0;
-    static uint32_t temp_mq2_time = 0;
-    static uint32_t temp_flame_value = 0;
-    OLED_Queue OLED_receive;
-    uint8_t string[] = "FireAlarm System";
-
-    while (1) {
-        xSemaphoreTake(OLEDMutexHandle, portMAX_DELAY);
-
-        // 清除OLED显示
-        OLED_Clear_GRAM(panel_handle);
-
-        // 显示标题
-        OLED_ShowString(0, 0, string, 16);
-
-        // 从队列接收传感器数据
-        xQueueReceive(OLEDQueuehandle, &OLED_receive, 0);
-        temp_mq2_value = OLED_receive.MQ2_value;
-        temp_mq2_time = OLED_receive.time;
-        temp_flame_value = OLED_receive.flame_value;
-
-        // 在OLED上显示传感器数据
-        OLED_ShowString(0, 28, &"MQ2Value:", 12);
-        OLED_ShowString(0, 40, &"FlameValue:", 12);
-        OLED_ShowString(0, 52, &"Receivetime:", 12);
-
-        OLED_ShowNum(80, 28, (float)temp_mq2_value, 0, 12);
-        OLED_ShowNum(80, 40, 100 - temp_flame_value, 0, 12);
-        OLED_ShowNum(80, 52, temp_mq2_time, 0, 12);
-
-        OLED_Refresh(panel_handle);
-
-        vTaskDelay(10);
-        xSemaphoreGive(OLEDMutexHandle);
     }
 }
 
@@ -135,14 +90,12 @@ void app_main(void) {
     
     lvgl_demo_ui();
     // 创建队列和互斥量
+    
     OLEDQueuehandle = xQueueCreate(10, sizeof(OLED_Queue));
-    OLEDMutexHandle = xSemaphoreCreateMutex();
 
-    xSemaphoreGive(OLEDMutexHandle);
 
     // 创建任务
-    //xTaskCreatePinnedToCore(OLED_task, "OLED_task", 4096, NULL, 3, &OLEDHandle, 1);
     xTaskCreatePinnedToCore(ADC_task, "ADC_task", 4096, NULL, 2, &MQ2Handle, 1);
     xTaskCreatePinnedToCore(beep_task, "beep_task", 4096, NULL, 3, &BEEPHandle, 1);
-    //xTaskCreatePinnedToCore(flame_task, "flame_task", 4096, NULL, 3, &FLAMEHandle, 1);
+
 }
