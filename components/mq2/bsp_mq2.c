@@ -62,7 +62,7 @@ unsigned int Get_Adc_Value(adc1_channel_t channel)
     }
     /* 求平均值 */
     AdcValue = AdcValue / SAMPLES;
-    ESP_LOGI(TAG,"adc avenage value is %d",AdcValue);
+    //ESP_LOGI(TAG,"adc avenage value is %d",AdcValue);
     return AdcValue;
 }
 

@@ -69,5 +69,7 @@
 /home/zhaoly/flame_alarm_system/build/esp-idf/main/libmain.a
 /home/zhaoly/flame_alarm_system/build/esp-idf/LCD/libLCD.a
 /home/zhaoly/flame_alarm_system/build/esp-idf/LED/libLED.a
+/home/zhaoly/flame_alarm_system/build/esp-idf/UART_MY/libUART_MY.a
+/home/zhaoly/flame_alarm_system/build/esp-idf/LVGL_MY/libLVGL_MY.a
 /home/zhaoly/flame_alarm_system/build/esp-idf/beep/libbeep.a
 /home/zhaoly/flame_alarm_system/build/esp-idf/mq2/libmq2.a

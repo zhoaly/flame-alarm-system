@@ -69,5 +69,7 @@ $<TARGET_FILE:__idf_espressif__esp_lvgl_port>
 $<TARGET_FILE:__idf_main>
 $<TARGET_FILE:__idf_LCD>
 $<TARGET_FILE:__idf_LED>
+$<TARGET_FILE:__idf_UART_MY>
+$<TARGET_FILE:__idf_LVGL_MY>
 $<TARGET_FILE:__idf_beep>
 $<TARGET_FILE:__idf_mq2>

@@ -16,6 +16,10 @@
 #include "driver/gpio.h"
 #include "esp_lcd_panel_vendor.h"
 
+#include "UART_init_my.h"
+#include "LVGL_init_my.h"
+#include "lvgl_demo_ui.h"
+
 static const char *TAG = "main";
 
 extern esp_lcd_panel_handle_t panel_handle;
@@ -126,7 +130,10 @@ void app_main(void) {
     BEEP_init();
     ledc_init();
     ADC_Init();
-
+    uart_init_my();
+    LVGL_Init_my();
+    
+    lvgl_demo_ui();
     // 创建队列和互斥量
     OLEDQueuehandle = xQueueCreate(10, sizeof(OLED_Queue));
     OLEDMutexHandle = xSemaphoreCreateMutex();
@@ -134,7 +141,7 @@ void app_main(void) {
     xSemaphoreGive(OLEDMutexHandle);
 
     // 创建任务
-    xTaskCreatePinnedToCore(OLED_task, "OLED_task", 4096, NULL, 3, &OLEDHandle, 1);
+    //xTaskCreatePinnedToCore(OLED_task, "OLED_task", 4096, NULL, 3, &OLEDHandle, 1);
     xTaskCreatePinnedToCore(ADC_task, "ADC_task", 4096, NULL, 2, &MQ2Handle, 1);
     xTaskCreatePinnedToCore(beep_task, "beep_task", 4096, NULL, 3, &BEEPHandle, 1);
     //xTaskCreatePinnedToCore(flame_task, "flame_task", 4096, NULL, 3, &FLAMEHandle, 1);
