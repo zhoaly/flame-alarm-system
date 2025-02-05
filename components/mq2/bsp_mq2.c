@@ -11,6 +11,8 @@ TaskHandle_t MQ2Handle;
 
 extern QueueHandle_t LVGLQueuehandle;
 extern bool flag_beep;
+extern int page_index;
+extern int child_pag_flag;
 
 void delay_ms(unsigned int ms)
 {
@@ -116,9 +118,9 @@ unsigned int Get_Flame_Percentage_value(void)
     
     return Percentage_value;
 }
+lvgl_Queue DRAM_ATTR adc;
 
 void ADC_task() {
-    lvgl_Queue adc;
 
     while (1) {
         adc.MQ2_value = Get_MQ2_Percentage_value();   // 获取MQ2传感器的百分比值
@@ -126,7 +128,7 @@ void ADC_task() {
         adc.time = xTaskGetTickCount();              // 获取当前任务的滴答计数
 
         // 将传感器数据发送到OLED队列
-        if (LVGLQueuehandle!=NULL) {
+        if (LVGLQueuehandle!=NULL&&child_pag_flag==1&&page_index==0) {
             xQueueSend(LVGLQueuehandle, &adc, 0);
             //ESP_LOGI(TAG,"lvgl queue send");
         }
@@ -138,6 +140,6 @@ void ADC_task() {
             flag_beep = 0;
         }
 
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }

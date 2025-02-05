@@ -21,9 +21,11 @@ QueueHandle_t uart_queue;//uart 事件队列句柄
 //const uart_port_t uart_num = UART_NUM_0;
 
 
+int  DRAM_ATTR length=0;
+uart_event_t DRAM_ATTR event;
+    
 void uart_task(){
-    int length=0;
-    uart_event_t event;
+
     while (1)
     {
         if (xQueueReceive(uart_queue, (void *)&event, (TickType_t)portMAX_DELAY)) {
@@ -87,7 +89,7 @@ void uart_init_my(){
     ESP_ERROR_CHECK(uart_driver_install(uart_num, uart_buffer_size, \
                                         uart_buffer_size, 10, &uart_queue, 0));
     //创建输入队列
-    xTaskCreatePinnedToCore(uart_task,"uart_task",4096,NULL,10,&uart_Handle,0);
+    xTaskCreatePinnedToCore(uart_task,"uart_task",4096,NULL,3,&uart_Handle,0);
 
     uart_report_cmd_quere=xQueueCreate(10,sizeof(uart_report_type));
 

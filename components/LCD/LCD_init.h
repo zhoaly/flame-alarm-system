@@ -1,7 +1,7 @@
 #ifndef LCD_INIT_H
 #define LCD_INIT_H
 
-#define EXAMPLE_LCD_PIXEL_CLOCK_HZ    (400 * 1000)
+#define EXAMPLE_LCD_PIXEL_CLOCK_HZ    (200 * 1000)
 #define EXAMPLE_PIN_NUM_SDA           11
 #define EXAMPLE_PIN_NUM_SCL           12
 #define EXAMPLE_PIN_NUM_RST           -1

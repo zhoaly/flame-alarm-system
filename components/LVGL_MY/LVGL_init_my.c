@@ -37,7 +37,11 @@ lv_obj_t * new_btn4;//子界面的按钮
 lv_obj_t * new_btn5;//子界面的按钮
 
 
-lv_obj_t * new_label1;//子界面的lable
+
+lv_obj_t * new_label1_time;   // 子界面1的标签
+lv_obj_t * new_label1_mq2;   // 子界面1的标签
+lv_obj_t * new_label1_time_value;   // 子界面1的标签(数值)
+lv_obj_t * new_label1_mq2_value;   // 子界面1的标签(数值)
 lv_obj_t * new_label2;//子界面的lable
 lv_obj_t * new_label3;//子界面的lable
 lv_obj_t * new_label4;//子界面的lable
@@ -46,6 +50,7 @@ lv_obj_t * new_label5;//子界面的lable
 lv_style_t style_panel;               // 面板样式
 lv_style_t style_button_focu;         // 按钮处于焦点时的样式
 lv_style_t style_button_default;      // 按钮的默认样式
+lv_style_t style_text_default;      // 字体的默认样式
 lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
 
@@ -84,10 +89,13 @@ static void lvgl_task_queue(){
     while (1)
     {
         xQueueReceive(LVGLQueuehandle,&lvgl_receive,(TickType_t)portMAX_DELAY);
-        ESP_LOGI(TAG, "lvgl_receive:%ld,mq2 %d:",lvgl_receive.time,lvgl_receive.MQ2_value);
-        if (new_label1!=NULL&&child_pag_flag == 1)
+        
+        if (scr_child_1!=NULL&&child_pag_flag == 1)
         {
-            lv_label_set_text_fmt(new_label1, "time:%ld", lvgl_receive.time);
+            ESP_LOGI(TAG, "lvgl_receive:%ld,mq2 :%d",lvgl_receive.time,lvgl_receive.MQ2_value);
+
+            lv_label_set_text_fmt(new_label1_time_value, ":%ld", lvgl_receive.time);
+            lv_label_set_text_fmt(new_label1_mq2_value, ":%d", lvgl_receive.MQ2_value);
         }
     }
 }
@@ -234,6 +242,11 @@ void lvgl_style_init(){
     lv_style_set_transform_width(&style_button_focu, 5);
     lv_style_set_transform_height(&style_button_focu, 5);
     lv_style_set_transition(&style_button_focu, &trans_button_focu);
+
+    /* 初始化字体样式 */
+    lv_style_init(&style_text_default);
+    lv_style_set_text_font(&style_text_default,&lv_font_montserrat_16);//14号字体
+
 }
 
 void lvgl_scr_init(){

@@ -31,7 +31,12 @@ extern lv_obj_t * new_btn3;  // 子界面3的按钮
 extern lv_obj_t * new_btn4;  // 子界面4的按钮
 extern lv_obj_t * new_btn5;  // 子界面5的按钮
 
-extern lv_obj_t * new_label1;   // 子界面1的标签
+extern lv_obj_t * new_label1_time;   // 子界面1的标签(标题)
+extern lv_obj_t * new_label1_mq2;   // 子界面1的标签(标题)
+
+extern lv_obj_t * new_label1_time_value;   // 子界面1的标签(数值)
+extern lv_obj_t * new_label1_mq2_value;   // 子界面1的标签(数值)
+
 extern lv_obj_t * new_label2;  // 子界面2的标签
 extern lv_obj_t * new_label3;  // 子界面3的标签
 extern lv_obj_t * new_label4;  // 子界面4的标签
@@ -44,6 +49,7 @@ extern int child_pag_flag;
 extern lv_style_t style_panel;               // 面板样式
 extern lv_style_t style_button_focu;         // 按钮处于焦点时的样式
 extern lv_style_t style_button_default;      // 按钮的默认样式
+extern lv_style_t style_text_default;      // 按钮的默认样式
 extern lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 extern lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
 
@@ -136,7 +142,7 @@ void lvgl_demo_ui() {
     lv_obj_clean(scr_child_4);
     lv_obj_clean(scr_child_5);//清除所有子界面
     
-    lv_scr_load_anim(scr, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 0, true);
+    lv_scr_load_anim(scr, LV_SCR_LOAD_ANIM_OVER_RIGHT, 100, 0, true);
 
     /* 创建容器面板（用于放置按钮） */
     panel = lv_obj_create(scr);
@@ -162,7 +168,10 @@ void lvgl_demo_ui() {
         lv_label_set_text_fmt(label[i], "Page %ld", i + 1);
         lv_obj_center(label[i]);
     }
+    
     lv_obj_scroll_to_view(btn[page_index], LV_ANIM_ON);
+
+
 }
 
 /* 子界面1的 UI函数 */
@@ -170,7 +179,7 @@ void lvgl_demo_ui_child_1(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_1");
 
     lv_obj_clean(scr); // 清除上个界面
-    lv_scr_load_anim(scr_child_1, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
+    lv_scr_load_anim(scr_child_1, LV_SCR_LOAD_ANIM_OVER_TOP, 100, 0, true);
 
 
     panel_child_1 = lv_obj_create(scr_child_1);
@@ -182,9 +191,35 @@ void lvgl_demo_ui_child_1(){
     lv_obj_center(new_btn1);
     lv_obj_add_event_cb(new_btn1, btn_event_handler, LV_EVENT_PRESSED, NULL); // 注册回调（返回主界面）
 
-    new_label1 = lv_label_create(new_btn1);
-    lv_label_set_text_fmt(new_label1, "time:%ld", lvgl_receive.time);
+    new_label1_time = lv_label_create(new_btn1);
+    lv_obj_add_style(new_label1_time,&style_text_default,0);
+    lv_label_set_long_mode(new_label1_time, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_obj_set_width(new_label1_time, 35);//显示项目标题 宽度35
+    lv_obj_set_pos(new_label1_time,10,0);
+    lv_label_set_text_fmt(new_label1_time, "time");//显示项目标题 宽度35
+    // lv_label_set_text_fmt(new_label1_time, "time:%ld", lvgl_receive.time);
 
+    new_label1_mq2 = lv_label_create(new_btn1);
+    lv_obj_add_style(new_label1_mq2,&style_text_default,0);
+    lv_label_set_long_mode(new_label1_mq2, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_obj_set_width(new_label1_mq2, 35);//显示项目标题 宽度35
+    lv_obj_set_pos(new_label1_mq2,10,16);
+    lv_label_set_text_fmt(new_label1_mq2, "mq2_vlaue");//显示项目标题 宽度35
+    //lv_label_set_text_fmt(new_label1_mq2, "mq2_vlaue:%d", lvgl_receive.MQ2_value);
+
+    new_label1_time_value = lv_label_create(new_btn1);
+    lv_obj_add_style(new_label1_time_value,&style_text_default,0);
+    lv_label_set_long_mode(new_label1_time_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_obj_set_width(new_label1_time_value, 45);//显示项目数值 宽度45
+    lv_obj_set_pos(new_label1_time_value,45,0);
+    lv_label_set_text_fmt(new_label1_time_value, ":%ld", lvgl_receive.time);//显示项目数值
+
+    new_label1_mq2_value = lv_label_create(new_btn1);
+    lv_obj_add_style(new_label1_mq2_value,&style_text_default,0);
+    lv_label_set_long_mode(new_label1_mq2_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_obj_set_width(new_label1_mq2_value, 45);//显示项目数值 宽度45
+    lv_obj_set_pos(new_label1_mq2_value,45,16);
+    lv_label_set_text_fmt(new_label1_mq2_value, ":%d", lvgl_receive.MQ2_value);//显示项目数值
 }
 
 /* 子界面2的 UI函数 */
@@ -192,7 +227,7 @@ void lvgl_demo_ui_child_2(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_2");
 
     lv_obj_clean(scr); // 清除上个界面
-    lv_scr_load_anim(scr_child_2, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
+    lv_scr_load_anim(scr_child_2, LV_SCR_LOAD_ANIM_OVER_TOP, 100, 0, true);
 
     panel_child_2 = lv_obj_create(scr_child_2);
     lv_obj_align(panel_child_2, LV_ALIGN_CENTER, 0, 0);
