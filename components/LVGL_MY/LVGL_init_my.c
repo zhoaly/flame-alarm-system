@@ -92,9 +92,9 @@ static void lvgl_task_queue(){
         
         if (scr_child_1!=NULL&&child_pag_flag == 1)
         {
-            ESP_LOGI(TAG, "lvgl_receive:%ld,mq2 :%d",lvgl_receive.time,lvgl_receive.MQ2_value);
+            //ESP_LOGI(TAG, "lvgl_receive:%ld,mq2 :%d",lvgl_receive.time,lvgl_receive.MQ2_value);
 
-            lv_label_set_text_fmt(new_label1_time_value, ":%ld", lvgl_receive.time);
+            lv_label_set_text_fmt(new_label1_time_value, ":%ld", pdTICKS_TO_MS(lvgl_receive.time)/1000);
             lv_label_set_text_fmt(new_label1_mq2_value, ":%d", lvgl_receive.MQ2_value);
         }
     }
@@ -127,14 +127,14 @@ static void lvgl_task_uart(){
         case LEFT:
             ESP_LOGI(TAG,"cmd is LEFT");
             page_index+=1;
-            if (page_index>=4)page_index=4;
+            if (page_index>4)page_index=0;
             ESP_LOGI(TAG,"page index:%d",page_index);
             lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
             break;
         case RIGHT:
             ESP_LOGI(TAG,"cmd is RIGHT");
             page_index-=1;
-            if (page_index<=0)page_index=0;
+            if (page_index<0)page_index=4;
             ESP_LOGI(TAG,"page index:%d",page_index);
             lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
             break;
@@ -144,8 +144,32 @@ static void lvgl_task_uart(){
 
             if (child_pag_flag==1)
             {
-                lv_event_send(new_btn1,LV_EVENT_PRESSED,NULL);
-                ESP_LOGI(TAG,"back to main, child_pag_flag is %d",child_pag_flag);
+                switch (page_index)
+                {
+                case 0:
+                    lv_event_send(new_btn1,LV_EVENT_PRESSED,NULL);
+                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
+                    break;
+                case 1:
+                    lv_event_send(new_btn2,LV_EVENT_PRESSED,NULL);
+                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
+                    break;
+                case 2:
+                    lv_event_send(new_btn3,LV_EVENT_PRESSED,NULL);
+                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
+                    break;
+                case 3:
+                    lv_event_send(new_btn4,LV_EVENT_PRESSED,NULL);
+                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
+                    break;
+                case 4:
+                    lv_event_send(new_btn5,LV_EVENT_PRESSED,NULL);
+                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
+                    break;
+                default:
+                    break;
+                }
+
 
             }else if(child_pag_flag==0)
             {

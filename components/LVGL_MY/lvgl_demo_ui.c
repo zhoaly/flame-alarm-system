@@ -209,14 +209,14 @@ void lvgl_demo_ui_child_1(){
 
     new_label1_time_value = lv_label_create(new_btn1);
     lv_obj_add_style(new_label1_time_value,&style_text_default,0);
-    lv_label_set_long_mode(new_label1_time_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    //lv_label_set_long_mode(new_label1_time_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label1_time_value, 45);//显示项目数值 宽度45
     lv_obj_set_pos(new_label1_time_value,45,0);
-    lv_label_set_text_fmt(new_label1_time_value, ":%ld", lvgl_receive.time);//显示项目数值
+    lv_label_set_text_fmt(new_label1_time_value, ":%ld", pdTICKS_TO_MS(lvgl_receive.time)/1000);//显示项目数值
 
     new_label1_mq2_value = lv_label_create(new_btn1);
     lv_obj_add_style(new_label1_mq2_value,&style_text_default,0);
-    lv_label_set_long_mode(new_label1_mq2_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    //lv_label_set_long_mode(new_label1_mq2_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label1_mq2_value, 45);//显示项目数值 宽度45
     lv_obj_set_pos(new_label1_mq2_value,45,16);
     lv_label_set_text_fmt(new_label1_mq2_value, ":%d", lvgl_receive.MQ2_value);//显示项目数值
