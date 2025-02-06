@@ -19,11 +19,15 @@
 #include "UART_init_my.h"
 #include "LVGL_init_my.h"
 #include "lvgl_demo_ui.h"
+#include "WiFi_my.h"
+#include "sntp_set_time.h"
 
 static const char *TAG = "main";
 
 // 主应用入口
 void app_main(void) {
+
+
     // 初始化外设
     LCD_Init();
     BEEP_init();
@@ -31,6 +35,11 @@ void app_main(void) {
     ADC_Init();
     uart_init_my();
     LVGL_Init_my();
+
+    lvgl_lodding();//lodding界面等待初始化完成
+
+    wifi_init_sta();
+    sntp_set_time();
 
     
     lvgl_demo_ui();

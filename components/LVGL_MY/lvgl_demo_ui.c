@@ -3,10 +3,12 @@
 #include "LVGL_init_my.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
+#include "time.h"
 
 extern lv_disp_t *disp; // 显示器对象
 
 // 全局变量声明
+extern lv_obj_t *scr_lodding;      // 屏幕对象
 extern lv_obj_t *scr;      // 屏幕对象
 extern lv_obj_t *scr_child_1; // 子界面屏幕1
 extern lv_obj_t *scr_child_2; // 子界面屏幕2
@@ -37,7 +39,9 @@ extern lv_obj_t * new_label1_mq2;   // 子界面1的标签(标题)
 extern lv_obj_t * new_label1_time_value;   // 子界面1的标签(数值)
 extern lv_obj_t * new_label1_mq2_value;   // 子界面1的标签(数值)
 
-extern lv_obj_t * new_label2;  // 子界面2的标签
+extern lv_obj_t * new_label2_value;  // 子界面2的标签
+extern lv_obj_t * new_label2_head;  // 子界面2的标签
+
 extern lv_obj_t * new_label3;  // 子界面3的标签
 extern lv_obj_t * new_label4;  // 子界面4的标签
 extern lv_obj_t * new_label5;  // 子界面5的标签
@@ -131,6 +135,19 @@ static void scroll_event_handler(lv_event_t *e) {
     }
 }
 
+
+
+void lvgl_lodding(){
+    ESP_LOGI(TAG, "lodding");
+    lv_obj_t * panel_lodding = lv_obj_create(scr_lodding);
+    lv_obj_align(panel_lodding, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_add_style(panel_lodding, &style_panel, 0); // 设置面板样式
+
+    lv_obj_t * label_lodding = lv_label_create(panel_lodding);
+    lv_label_set_text_fmt(label_lodding, "lodding...");//显示项目标题 宽度35
+    lv_obj_align(label_lodding, LV_ALIGN_CENTER, 0, 0);
+
+}
 /* UI函数（主界面） */
 void lvgl_demo_ui() {
     ESP_LOGI(TAG, "lvgl_demo_ui");
@@ -141,7 +158,8 @@ void lvgl_demo_ui() {
     lv_obj_clean(scr_child_3);
     lv_obj_clean(scr_child_4);
     lv_obj_clean(scr_child_5);//清除所有子界面
-    
+    lv_obj_clean(scr_lodding);//清除所有子界面
+
     lv_scr_load_anim(scr, LV_SCR_LOAD_ANIM_OVER_RIGHT, 100, 0, true);
 
     /* 创建容器面板（用于放置按钮） */
@@ -238,8 +256,17 @@ void lvgl_demo_ui_child_2(){
     lv_obj_center(new_btn2);
     lv_obj_add_event_cb(new_btn2, btn_event_handler, LV_EVENT_PRESSED, NULL); // 注册回调（返回主界面）
 
-    new_label2 = lv_label_create(new_btn2);
-    lv_label_set_text_fmt(new_label2, "btn %d", 2);
+
+    new_label2_head =lv_label_create(new_btn2);
+    lv_obj_add_style(new_label2_value,&style_text_default,0);
+    lv_obj_align(new_label2_value, LV_ALIGN_TOP_MID, 0, 0);
+
+    new_label2_value = lv_label_create(new_btn2);
+    lv_obj_add_style(new_label2_value,&style_text_default,0);
+    lv_label_set_long_mode(new_label2_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_obj_set_width(new_label2_value, 100);//显示项目数值 宽度100
+    lv_label_set_text_fmt(new_label2_value, "%d-%d-%d %d:%d:%d ",0,0,0,0,0,0);
+
 }
 
 /* 子界面3的 UI函数 */

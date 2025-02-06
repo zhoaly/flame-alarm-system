@@ -20,6 +20,7 @@
         "bsp_mq2.h": "c",
         "gpio.h": "c",
         "lvgl_init_my.h": "c",
-        "beep.h": "c"
+        "beep.h": "c",
+        "uart_init_my.h": "c"
     }
 }

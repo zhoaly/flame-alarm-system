@@ -8,6 +8,7 @@
 #include "lvgl.h"
 #include "LCD_init.h"
 
+#include "time.h"
 extern esp_lcd_panel_handle_t panel_handle;
 extern esp_lcd_panel_io_handle_t io_handle;
 
@@ -15,6 +16,8 @@ extern QueueHandle_t uart_report_cmd_quere;
 
 QueueHandle_t LVGLQueuehandle;//lvgl队列句柄
 
+
+lv_obj_t *scr_lodding;      // 屏幕对象
 lv_obj_t *scr;      // 显示器对象
 lv_obj_t *scr_child_1;
 lv_obj_t *scr_child_2;
@@ -42,7 +45,10 @@ lv_obj_t * new_label1_time;   // 子界面1的标签
 lv_obj_t * new_label1_mq2;   // 子界面1的标签
 lv_obj_t * new_label1_time_value;   // 子界面1的标签(数值)
 lv_obj_t * new_label1_mq2_value;   // 子界面1的标签(数值)
-lv_obj_t * new_label2;//子界面的lable
+
+lv_obj_t * new_label2_value;  // 子界面2的标签
+lv_obj_t * new_label2_head;  // 子界面2的标签
+
 lv_obj_t * new_label3;//子界面的lable
 lv_obj_t * new_label4;//子界面的lable
 lv_obj_t * new_label5;//子界面的lable
@@ -71,12 +77,30 @@ lv_timer_t *timer;  // 定时器对象
 static const char *TAG = "LVGL_init_my";
 
 
-// 定时器回调函数
+// 定时器回调函数 用来给page2刷新时间
 void my_time_cb(lv_timer_t *parm) {
     uint32_t *user_data = timer->user_data;
-    // 这里可以用于定时触发 UI 更新（例如滚动面板或更新显示）
-    //ESP_LOGI(TAG, "timer call back");
-    //lv_obj_scroll_by(panel, 64, 0, LV_ANIM_ON);
+
+    if (child_pag_flag == 1&&child_pag_flag==1)//判断是否在子页面
+    {
+        time_t now = 0;
+        time(&now);//获取当前系统时间（UTC 时间戳）
+        extern struct tm timeinfo;
+        localtime_r(&now, &timeinfo);//	将 UTC 时间转换为本地时间
+
+        int time_year,time_mon,time_day,time_hour,time_min,time_sec;
+        time_year = timeinfo.tm_year + 1900;  // tm_year 是从 1900 年开始的
+        time_mon = timeinfo.tm_mon + 1;     // tm_mon 从 0 开始（0 = 1 月）
+        time_day = timeinfo.tm_mday;          // 直接就是日期
+        time_hour =timeinfo.tm_hour;
+        time_min =timeinfo.tm_min;
+        time_sec =timeinfo.tm_sec;
+        if (new_label2_value!=NULL)
+        lv_label_set_text_fmt(new_label2_value, "%d-%d-%d %d:%d:%d ",
+        time_year,time_mon,time_day,time_hour,time_min,time_sec);
+    }
+    
+
 }
 
 
@@ -281,4 +305,5 @@ void lvgl_scr_init(){
     scr_child_3 = lv_disp_get_scr_act(disp);
     scr_child_4 = lv_disp_get_scr_act(disp);
     scr_child_5 = lv_disp_get_scr_act(disp);
+    scr_lodding = lv_disp_get_scr_act(disp);      // 屏幕对象
 }

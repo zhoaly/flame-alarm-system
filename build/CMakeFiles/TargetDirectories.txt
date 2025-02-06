@@ -891,6 +891,13 @@
 /home/zhaoly/flame_alarm_system/build/esp-idf/LVGL_MY/CMakeFiles/rebuild_cache.dir
 /home/zhaoly/flame_alarm_system/build/esp-idf/LVGL_MY/CMakeFiles/edit_cache.dir
 /home/zhaoly/flame_alarm_system/build/esp-idf/LVGL_MY/CMakeFiles/__idf_LVGL_MY.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/CMakeFiles/install/local.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/CMakeFiles/install.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/CMakeFiles/list_install_components.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/CMakeFiles/rebuild_cache.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/CMakeFiles/edit_cache.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/CMakeFiles/install/strip.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/CMakeFiles/__idf_WiFi.dir
 /home/zhaoly/flame_alarm_system/build/esp-idf/beep/CMakeFiles/install/strip.dir
 /home/zhaoly/flame_alarm_system/build/esp-idf/beep/CMakeFiles/install/local.dir
 /home/zhaoly/flame_alarm_system/build/esp-idf/beep/CMakeFiles/install.dir
@@ -905,3 +912,10 @@
 /home/zhaoly/flame_alarm_system/build/esp-idf/mq2/CMakeFiles/list_install_components.dir
 /home/zhaoly/flame_alarm_system/build/esp-idf/mq2/CMakeFiles/rebuild_cache.dir
 /home/zhaoly/flame_alarm_system/build/esp-idf/mq2/CMakeFiles/__idf_mq2.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/sntp_set_time/CMakeFiles/install/strip.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/sntp_set_time/CMakeFiles/install/local.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/sntp_set_time/CMakeFiles/install.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/sntp_set_time/CMakeFiles/list_install_components.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/sntp_set_time/CMakeFiles/rebuild_cache.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/sntp_set_time/CMakeFiles/edit_cache.dir
+/home/zhaoly/flame_alarm_system/build/esp-idf/sntp_set_time/CMakeFiles/__idf_sntp_set_time.dir
