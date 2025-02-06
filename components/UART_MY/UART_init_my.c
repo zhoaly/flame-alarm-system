@@ -36,7 +36,7 @@ void uart_task(){
                     {
                         uint16_t temp_len=length;
                         if(temp_len>=uart_max_data_length) temp_len=uart_max_data_length;
-                        uart_read_bytes(uart_num, data, temp_len, 100);
+                        uart_read_bytes(uart_num, data, temp_len, (TickType_t)0);
                         //uart_write_bytes(uart_num, (const char*)data, temp_len); 
                         ESP_LOGI(TAG,"esp_send lenth:%d",temp_len);
                         length-=temp_len;

@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "FLAME_ALARM_SYSTEM",
-    "project_version":    "df4e8c1-dirty",
+    "project_version":    "1c2c8ba-dirty",
     "project_path":       "/home/zhaoly/flame_alarm_system",
     "idf_path":           "/home/zhaoly/esp/v5.4/esp-idf",
     "build_dir":          "/home/zhaoly/flame_alarm_system/build",

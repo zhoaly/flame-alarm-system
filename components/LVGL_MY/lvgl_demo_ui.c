@@ -61,10 +61,13 @@ extern lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状�
 extern QueueHandle_t LVGLQueuehandle;//lvgl队列句柄
 extern lvgl_Queue lvgl_receive;
 
+extern lv_timer_t *timer;  // 定时器对象
+
 static const char *TAG = "LVGL_UI";
 
 /* 按钮点击事件回调 */
 static void btn_event_handler(lv_event_t *e) {
+    lvgl_port_unlock();
     lv_obj_t *btn_pressed = lv_event_get_target(e); // 获取触发事件的按钮对象
     ESP_LOGI(TAG, "btn pressed");
 
@@ -110,10 +113,12 @@ static void btn_event_handler(lv_event_t *e) {
         lvgl_demo_ui_child_5();
         return;
     }
+
 }
 
 /* 滚动事件回调（用于判断按钮是否处于屏幕中心） */
 static void scroll_event_handler(lv_event_t *e) {
+    lvgl_port_unlock();
     lv_obj_t *panel = lv_event_get_target(e);  // 获取滚动面板对象
     lv_coord_t panel_x = lv_obj_get_scroll_x(panel); // 获取当前滚动的 X 位置
     lv_coord_t panel_w = lv_obj_get_width(panel);    // 获取面板宽度
@@ -133,12 +138,14 @@ static void scroll_event_handler(lv_event_t *e) {
             }
         }
     }
+
 }
 
 
 
 void lvgl_lodding(){
     ESP_LOGI(TAG, "lodding");
+    lvgl_port_unlock();
     lv_obj_t * panel_lodding = lv_obj_create(scr_lodding);
     lv_obj_align(panel_lodding, LV_ALIGN_CENTER, 0, 0);
     lv_obj_add_style(panel_lodding, &style_panel, 0); // 设置面板样式
@@ -151,6 +158,7 @@ void lvgl_lodding(){
 /* UI函数（主界面） */
 void lvgl_demo_ui() {
     ESP_LOGI(TAG, "lvgl_demo_ui");
+    lv_timer_pause(timer);//主界面中暂停定时器
 
     // 清除上个界面，并加载主界面
     lv_obj_clean(scr_child_1);
@@ -195,6 +203,7 @@ void lvgl_demo_ui() {
 /* 子界面1的 UI函数 */
 void lvgl_demo_ui_child_1(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_1");
+    lvgl_port_unlock();
 
     lv_obj_clean(scr); // 清除上个界面
     lv_scr_load_anim(scr_child_1, LV_SCR_LOAD_ANIM_OVER_TOP, 100, 0, true);
@@ -238,12 +247,14 @@ void lvgl_demo_ui_child_1(){
     lv_obj_set_width(new_label1_mq2_value, 45);//显示项目数值 宽度45
     lv_obj_set_pos(new_label1_mq2_value,45,16);
     lv_label_set_text_fmt(new_label1_mq2_value, ":%d", lvgl_receive.MQ2_value);//显示项目数值
+
 }
 
 /* 子界面2的 UI函数 */
 void lvgl_demo_ui_child_2(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_2");
-
+    
+    lvgl_port_unlock();
     lv_obj_clean(scr); // 清除上个界面
     lv_scr_load_anim(scr_child_2, LV_SCR_LOAD_ANIM_OVER_TOP, 100, 0, true);
 
@@ -258,21 +269,25 @@ void lvgl_demo_ui_child_2(){
 
 
     new_label2_head =lv_label_create(new_btn2);
-    lv_obj_add_style(new_label2_value,&style_text_default,0);
-    lv_obj_align(new_label2_value, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_add_style(new_label2_head,&style_text_default,0);
+    lv_obj_set_pos(new_label2_head,0,0);
+    lv_label_set_text_fmt(new_label2_head, "time");
 
     new_label2_value = lv_label_create(new_btn2);
     lv_obj_add_style(new_label2_value,&style_text_default,0);
     lv_label_set_long_mode(new_label2_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label2_value, 100);//显示项目数值 宽度100
+    lv_obj_set_pos(new_label2_value,0,16);
     lv_label_set_text_fmt(new_label2_value, "%d-%d-%d %d:%d:%d ",0,0,0,0,0,0);
+    lv_timer_resume(timer);
+    lv_timer_ready(timer);
 
 }
 
 /* 子界面3的 UI函数 */
 void lvgl_demo_ui_child_3(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_3");
-
+    lvgl_port_unlock();
     lv_obj_clean(scr); // 清除上个界面
     lv_scr_load_anim(scr_child_3, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
@@ -287,6 +302,7 @@ void lvgl_demo_ui_child_3(){
 
     new_label3 = lv_label_create(new_btn3);
     lv_label_set_text_fmt(new_label3, "btn %d", 3);
+
 }
 
 /* 子界面4的 UI函数 */

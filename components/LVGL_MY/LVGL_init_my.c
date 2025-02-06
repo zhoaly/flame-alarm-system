@@ -95,9 +95,11 @@ void my_time_cb(lv_timer_t *parm) {
         time_hour =timeinfo.tm_hour;
         time_min =timeinfo.tm_min;
         time_sec =timeinfo.tm_sec;
+
         if (new_label2_value!=NULL)
         lv_label_set_text_fmt(new_label2_value, "%d-%d-%d %d:%d:%d ",
         time_year,time_mon,time_day,time_hour,time_min,time_sec);
+
     }
     
 
@@ -120,6 +122,7 @@ static void lvgl_task_queue(){
 
             lv_label_set_text_fmt(new_label1_time_value, ":%ld", pdTICKS_TO_MS(lvgl_receive.time)/1000);
             lv_label_set_text_fmt(new_label1_mq2_value, ":%d", lvgl_receive.MQ2_value);
+
         }
     }
 }
@@ -139,7 +142,7 @@ static void lvgl_task_uart(){
         static int i= 0;
         i = (int)uart_output.reprot;
         ESP_LOGI(TAG,"cmd is :%c \n,reprot is :%c\n,time is: %ld \n",uart_output.cmd,uart_output.reprot,reort_time);
-
+        lvgl_port_unlock();
         switch (uart_output.cmd)
         {
         case INDEX:
@@ -171,22 +174,27 @@ static void lvgl_task_uart(){
                 switch (page_index)
                 {
                 case 0:
+                    if (new_btn1!=NULL)
                     lv_event_send(new_btn1,LV_EVENT_PRESSED,NULL);
                     ESP_LOGI(TAG,"back to main, index is %d",page_index);
                     break;
                 case 1:
+                    if (new_btn2!=NULL)
                     lv_event_send(new_btn2,LV_EVENT_PRESSED,NULL);
                     ESP_LOGI(TAG,"back to main, index is %d",page_index);
                     break;
                 case 2:
+                    if (new_btn3!=NULL)
                     lv_event_send(new_btn3,LV_EVENT_PRESSED,NULL);
                     ESP_LOGI(TAG,"back to main, index is %d",page_index);
                     break;
                 case 3:
+                    if (new_btn4!=NULL)
                     lv_event_send(new_btn4,LV_EVENT_PRESSED,NULL);
                     ESP_LOGI(TAG,"back to main, index is %d",page_index);
                     break;
                 case 4:
+                    if (new_btn5!=NULL)
                     lv_event_send(new_btn5,LV_EVENT_PRESSED,NULL);
                     ESP_LOGI(TAG,"back to main, index is %d",page_index);
                     break;
@@ -212,6 +220,7 @@ static void lvgl_task_uart(){
         // lv_obj_scroll_to_view(btn[i],LV_ANIM_ON);
         // i++;
         // if (i>=5) i=0;
+
     }
 }
 
@@ -221,7 +230,7 @@ lv_disp_t* LVGL_Init_my(){
     ESP_LOGI(TAG, "Initialize LVGL");
     const lvgl_port_cfg_t lvgl_cfg = ESP_LVGL_PORT_INIT_CONFIG();
     lvgl_port_init(&lvgl_cfg);
-
+    
     const lvgl_port_display_cfg_t disp_cfg = {
         .io_handle = io_handle,
         .panel_handle = panel_handle,

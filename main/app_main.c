@@ -43,8 +43,7 @@ void app_main(void) {
 
     
     lvgl_demo_ui();
-    // 创建队列和互斥量
-
+    
     //OLEDQueuehandle = xQueueCreate(10, sizeof(OLED_Queue));
 
 

@@ -14,12 +14,15 @@ static const char *TAG = "sntp";  // 日志标签
 struct tm timeinfo = {0};
 char strftime_buf[64];
 int time_year,time_mon,time_day,time_hour,time_min,time_sec;
+extern bool ip_ready_flag;
 
 
 void sntp_set_time(){
 
     esp_sntp_config_t config = ESP_NETIF_SNTP_DEFAULT_CONFIG("cn.pool.ntp.org");
     esp_netif_sntp_init(&config);
+
+    while (ip_ready_flag==0);//等待wifi获取IP地址
     int return_flag=0;
     while (esp_netif_sntp_sync_wait(pdMS_TO_TICKS(1000)) != ESP_OK)
     {

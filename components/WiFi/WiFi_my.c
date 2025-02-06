@@ -12,6 +12,7 @@ static const char *TAG = "wifi_init";  // 日志标签
 
 
 static int s_retry_num = 0;  // 连接重试次数
+bool ip_ready_flag=0;
 
 /* WiFi 事件处理函数 */
 static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_id, void* event_data)
@@ -34,6 +35,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_i
     {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "获取到 IP: " IPSTR, IP2STR(&event->ip_info.ip));
+        ip_ready_flag=1;
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
     }
