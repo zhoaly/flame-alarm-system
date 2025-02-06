@@ -46,7 +46,8 @@ lv_obj_t * new_label1_mq2;   // 子界面1的标签
 lv_obj_t * new_label1_time_value;   // 子界面1的标签(数值)
 lv_obj_t * new_label1_mq2_value;   // 子界面1的标签(数值)
 
-lv_obj_t * new_label2_value;  // 子界面2的标签
+lv_obj_t * new_label2_value1;  // 子界面2的标签
+lv_obj_t * new_label2_value2;  // 子界面2的标签
 lv_obj_t * new_label2_head;  // 子界面2的标签
 
 lv_obj_t * new_label3;//子界面的lable
@@ -96,9 +97,12 @@ void my_time_cb(lv_timer_t *parm) {
         time_min =timeinfo.tm_min;
         time_sec =timeinfo.tm_sec;
 
-        if (new_label2_value!=NULL)
-        lv_label_set_text_fmt(new_label2_value, "%d-%d-%d %d:%d:%d ",
-        time_year,time_mon,time_day,time_hour,time_min,time_sec);
+        if (new_label2_value1!=NULL)
+        lv_label_set_text_fmt(new_label2_value1, "%d-%d-%d",
+        time_year,time_mon,time_day);
+        if (new_label2_value2!=NULL)
+        lv_label_set_text_fmt(new_label2_value2, "%d:%d:%d",
+        time_hour,time_min,time_sec);
 
     }
     

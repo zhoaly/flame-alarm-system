@@ -39,7 +39,8 @@ extern lv_obj_t * new_label1_mq2;   // 子界面1的标签(标题)
 extern lv_obj_t * new_label1_time_value;   // 子界面1的标签(数值)
 extern lv_obj_t * new_label1_mq2_value;   // 子界面1的标签(数值)
 
-extern lv_obj_t * new_label2_value;  // 子界面2的标签
+extern lv_obj_t * new_label2_value1;  // 子界面2的标签
+extern lv_obj_t * new_label2_value2;  // 子界面2的标签
 extern lv_obj_t * new_label2_head;  // 子界面2的标签
 
 extern lv_obj_t * new_label3;  // 子界面3的标签
@@ -191,10 +192,14 @@ void lvgl_demo_ui() {
         lv_obj_add_event_cb(btn[i], btn_event_handler, LV_EVENT_PRESSED, (void *)i); // 绑定点击事件
 
         label[i] = lv_label_create(btn[i]);
-        lv_label_set_text_fmt(label[i], "Page %ld", i + 1);
+        
         lv_obj_center(label[i]);
     }
-    
+    lv_label_set_text_fmt(label[0], "MQ2 test");
+    lv_label_set_text_fmt(label[1], "time test");
+    lv_label_set_text_fmt(label[2], "page3");
+    lv_label_set_text_fmt(label[3], "page4");
+    lv_label_set_text_fmt(label[4], "page5");
     lv_obj_scroll_to_view(btn[page_index], LV_ANIM_ON);
 
 
@@ -273,12 +278,18 @@ void lvgl_demo_ui_child_2(){
     lv_obj_set_pos(new_label2_head,0,0);
     lv_label_set_text_fmt(new_label2_head, "time");
 
-    new_label2_value = lv_label_create(new_btn2);
-    lv_obj_add_style(new_label2_value,&style_text_default,0);
-    lv_label_set_long_mode(new_label2_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
-    lv_obj_set_width(new_label2_value, 100);//显示项目数值 宽度100
-    lv_obj_set_pos(new_label2_value,0,16);
-    lv_label_set_text_fmt(new_label2_value, "%d-%d-%d %d:%d:%d ",0,0,0,0,0,0);
+    new_label2_value1 = lv_label_create(new_btn2);
+    new_label2_value2 = lv_label_create(new_btn2);
+    lv_obj_add_style(new_label2_value1,&style_text_default,0);
+    lv_obj_add_style(new_label2_value2,&style_text_default,0);
+    lv_label_set_long_mode(new_label2_value1, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_label_set_long_mode(new_label2_value2, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_obj_set_width(new_label2_value1, 100);//显示项目数值 宽度100
+    lv_obj_set_width(new_label2_value2, 100);//显示项目数值 宽度100
+    lv_obj_set_pos(new_label2_value1,0,16);
+    lv_obj_set_pos(new_label2_value2,0,32);
+    lv_label_set_text_fmt(new_label2_value1, "%d-%d-%d",0,0,0);
+    lv_label_set_text_fmt(new_label2_value2, "%d:%d:%d",0,0,0);
     lv_timer_resume(timer);
     lv_timer_ready(timer);
 
