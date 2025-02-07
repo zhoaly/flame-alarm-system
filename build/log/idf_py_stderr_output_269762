@@ -1,0 +1,60 @@
+CMake Warning (dev) at components/LCD/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 41
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/LCD/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 53
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/LCD/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 61
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/LCD/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 69
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/LED/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 36
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/LVGL_MY/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 45
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/LVGL_MY/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 78
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/LVGL_MY/CMakeLists.txt:3:
+  Syntax Warning in cmake code at column 68
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/beep/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 37
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at components/mq2/CMakeLists.txt:1:
+  Syntax Warning in cmake code at column 40
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+

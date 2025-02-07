@@ -2,11 +2,7 @@
 #include "nvs_flash.h"
 
 /* FreeRTOS 事件组，用于管理 WiFi 连接状态 */
-static EventGroupHandle_t s_wifi_event_group;  // WiFi 事件组
-
-/* 事件组标志位，用于指示 WiFi 连接状态 */
-#define WIFI_CONNECTED_BIT BIT0  // 连接成功标志位
-#define WIFI_FAIL_BIT      BIT1  // 连接失败标志位
+EventGroupHandle_t wifi_event_group;  // WiFi 事件组
 
 static const char *TAG = "wifi_init";  // 日志标签
 
@@ -27,7 +23,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_i
             s_retry_num++;
             ESP_LOGI(TAG, "重试连接到 AP");
         } else {
-            xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
+            xEventGroupSetBits(wifi_event_group, WIFI_FAIL_BIT);
         }
         ESP_LOGI(TAG,"连接 AP 失败");
     } 
@@ -37,7 +33,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_i
         ESP_LOGI(TAG, "获取到 IP: " IPSTR, IP2STR(&event->ip_info.ip));
         ip_ready_flag=1;
         s_retry_num = 0;
-        xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
+        xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_BIT);
     }
 }
 
@@ -45,7 +41,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_i
 void wifi_init_sta(void)
 {   
     nvs_init();
-    s_wifi_event_group = xEventGroupCreate();  // 创建事件组
+    wifi_event_group = xEventGroupCreate();  // 创建事件组
     ESP_ERROR_CHECK(esp_netif_init());  // 初始化网络接口
     ESP_ERROR_CHECK(esp_event_loop_create_default());  // 创建默认事件循环（以便后面使用事件处理器）
     esp_netif_create_default_wifi_sta();  // 创建默认 WiFi 站点模式

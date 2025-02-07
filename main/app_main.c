@@ -21,6 +21,7 @@
 #include "lvgl_demo_ui.h"
 #include "WiFi_my.h"
 #include "sntp_set_time.h"
+#include "HTTP_weather.h"
 
 static const char *TAG = "main";
 
@@ -39,8 +40,8 @@ void app_main(void) {
     lvgl_lodding();//lodding界面等待初始化完成
 
     wifi_init_sta();
-    sntp_set_time();
-
+    sntp_time_init();
+    HTTP_weather_init_my();
     
     lvgl_demo_ui();
     

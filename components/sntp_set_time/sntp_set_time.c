@@ -7,6 +7,7 @@
 #include "esp_log.h"
 #include "lwip/err.h"
 #include "lwip/sys.h"
+#include "WiFi_my.h"
 
 static const char *TAG = "sntp";  // 日志标签
 
@@ -14,6 +15,10 @@ static const char *TAG = "sntp";  // 日志标签
 struct tm timeinfo = {0};
 char strftime_buf[64];
 int time_year,time_mon,time_day,time_hour,time_min,time_sec;
+
+TaskHandle_t sntp_ste_time_task;
+
+extern EventGroupHandle_t wifi_event_group;  // WiFi 事件组
 extern bool ip_ready_flag;
 
 
@@ -22,7 +27,8 @@ void sntp_set_time(){
     esp_sntp_config_t config = ESP_NETIF_SNTP_DEFAULT_CONFIG("cn.pool.ntp.org");
     esp_netif_sntp_init(&config);
 
-    while (ip_ready_flag==0);//等待wifi获取IP地址
+    // while (ip_ready_flag==0);//等待wifi获取IP地址
+    xEventGroupWaitBits(wifi_event_group,WIFI_CONNECTED_BIT,pdFALSE,pdFALSE,(TickType_t)portMAX_DELAY);
     int return_flag=0;
     while (esp_netif_sntp_sync_wait(pdMS_TO_TICKS(1000)) != ESP_OK)
     {
@@ -51,4 +57,15 @@ void sntp_set_time(){
     ESP_LOGI(TAG, "The current date is: %d-%d-%d %d:%d:%d", 
                                 time_year,time_mon,time_day,time_hour,time_min,time_sec);
     //ESP_LOGI(TAG, "The current date/time in xian is: %s", strftime_buf);
+
+    vTaskDelete(NULL);//紫砂
+}
+
+
+void sntp_time_init(){
+
+// sntp_set_time
+
+    xTaskCreatePinnedToCore(sntp_set_time, "http_client_task", 1024 * 4, NULL, 5, &sntp_ste_time_task, 0);
+    
 }

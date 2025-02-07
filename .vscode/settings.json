@@ -21,6 +21,7 @@
         "gpio.h": "c",
         "lvgl_init_my.h": "c",
         "beep.h": "c",
-        "uart_init_my.h": "c"
+        "uart_init_my.h": "c",
+        "wifi_my.h": "c"
     }
 }

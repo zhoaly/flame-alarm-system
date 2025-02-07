@@ -59,6 +59,10 @@
 #endif
 
 
+
+/* 事件组标志位，用于指示 WiFi 连接状态 */
+#define WIFI_CONNECTED_BIT BIT0  // 连接成功标志位
+#define WIFI_FAIL_BIT      BIT1  // 连接失败标志位
 void wifi_init_sta(void);
 void nvs_init();
 

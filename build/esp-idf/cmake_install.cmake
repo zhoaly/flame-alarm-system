@@ -569,6 +569,16 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/zhaoly/flame_alarm_system/build/esp-idf/HTTP_MY/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("/home/zhaoly/flame_alarm_system/build/esp-idf/LCD/cmake_install.cmake")
 endif()
 
@@ -585,11 +595,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
   include("/home/zhaoly/flame_alarm_system/build/esp-idf/LVGL_MY/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/zhaoly/flame_alarm_system/build/esp-idf/WiFi/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

@@ -3,5 +3,6 @@
 
 
 void sntp_set_time();
+void sntp_time_init();
 
 #endif
