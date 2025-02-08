@@ -4,6 +4,7 @@
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "time.h"
+#include "WiFi_my.h"
 
 extern lv_disp_t *disp; // 显示器对象
 
@@ -43,9 +44,20 @@ extern lv_obj_t * new_label2_value1;  // 子界面2的标签
 extern lv_obj_t * new_label2_value2;  // 子界面2的标签
 extern lv_obj_t * new_label2_head;  // 子界面2的标签
 
-extern lv_obj_t * new_label3;  // 子界面3的标签
+extern lv_obj_t * new_label3_Location;//子界面3的lable
+extern lv_obj_t * new_label3_Weather;//子界面3的lable
+extern lv_obj_t * new_label3_Temperature;//子界面3的lable
+extern lv_obj_t * new_label3_Update;//子界面3的lable
+
+
 extern lv_obj_t * new_label4;  // 子界面4的标签
 extern lv_obj_t * new_label5;  // 子界面5的标签
+
+extern char * location_text;
+extern char * Weather_text;
+extern char * Temperature_text;
+extern char * Update_text;
+
 
 extern int page_index;
 extern int child_pag_flag;
@@ -55,11 +67,13 @@ extern lv_style_t style_panel;               // 面板样式
 extern lv_style_t style_button_focu;         // 按钮处于焦点时的样式
 extern lv_style_t style_button_default;      // 按钮的默认样式
 extern lv_style_t style_text_default;      // 按钮的默认样式
+extern lv_style_t style_text_mini;      // 字体的mini样式
 extern lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 extern lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
 
 
 extern QueueHandle_t LVGLQueuehandle;//lvgl队列句柄
+
 extern lvgl_Queue lvgl_receive;
 
 extern lv_timer_t *timer;  // 定时器对象
@@ -155,6 +169,7 @@ void lvgl_lodding(){
     lv_label_set_text_fmt(label_lodding, "lodding...");//显示项目标题 宽度35
     lv_obj_align(label_lodding, LV_ALIGN_CENTER, 0, 0);
 
+    
 }
 /* UI函数（主界面） */
 void lvgl_demo_ui() {
@@ -197,7 +212,7 @@ void lvgl_demo_ui() {
     }
     lv_label_set_text_fmt(label[0], "MQ2 test");
     lv_label_set_text_fmt(label[1], "time test");
-    lv_label_set_text_fmt(label[2], "page3");
+    lv_label_set_text_fmt(label[2], "weather test");
     lv_label_set_text_fmt(label[3], "page4");
     lv_label_set_text_fmt(label[4], "page5");
     lv_obj_scroll_to_view(btn[page_index], LV_ANIM_ON);
@@ -310,9 +325,42 @@ void lvgl_demo_ui_child_3(){
     lv_obj_add_style(new_btn3, &style_button_default, 0);
     lv_obj_center(new_btn3);
     lv_obj_add_event_cb(new_btn3, btn_event_handler, LV_EVENT_PRESSED, NULL); // 注册回调（返回主界面）
+    
+    new_label3_Location = lv_label_create(new_btn3);    
+    new_label3_Temperature = lv_label_create(new_btn3);
+    new_label3_Weather = lv_label_create(new_btn3);
+    new_label3_Update = lv_label_create(new_btn3);
 
-    new_label3 = lv_label_create(new_btn3);
-    lv_label_set_text_fmt(new_label3, "btn %d", 3);
+    lv_label_set_long_mode(new_label3_Location, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_label_set_long_mode(new_label3_Temperature, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_label_set_long_mode(new_label3_Weather, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+    lv_label_set_long_mode(new_label3_Update, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
+
+    lv_obj_set_width(new_label3_Location, 100);//显示项目数值 宽度100
+    lv_obj_set_width(new_label3_Temperature, 100);//显示项目数值 宽度100
+    lv_obj_set_width(new_label3_Weather, 100);//显示项目数值 宽度100
+    lv_obj_set_width(new_label3_Update, 100);//显示项目数值 宽度100
+
+    lv_obj_add_style(new_label3_Location,&style_text_mini,0);
+    lv_obj_add_style(new_label3_Temperature,&style_text_mini,0);
+    lv_obj_add_style(new_label3_Weather,&style_text_mini,0);
+    lv_obj_add_style(new_label3_Update,&style_text_mini,0);
+
+    lv_obj_set_pos(new_label3_Location,0,0);
+    lv_obj_set_pos(new_label3_Temperature,0,12); 
+    lv_obj_set_pos(new_label3_Weather,0,24);
+    lv_obj_set_pos(new_label3_Update,0,36);
+
+
+
+
+    lv_label_set_text_fmt(new_label3_Location, "Location: %s",location_text);
+
+    lv_label_set_text_fmt(new_label3_Temperature, "Weather: %s", Weather_text);
+
+    lv_label_set_text_fmt(new_label3_Weather,  "Temp: %s°C",Temperature_text);
+
+    lv_label_set_text_fmt(new_label3_Update,"%s",  Update_text);
 
 }
 

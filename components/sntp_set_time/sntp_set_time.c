@@ -57,6 +57,7 @@ void sntp_set_time(){
     ESP_LOGI(TAG, "The current date is: %d-%d-%d %d:%d:%d", 
                                 time_year,time_mon,time_day,time_hour,time_min,time_sec);
     //ESP_LOGI(TAG, "The current date/time in xian is: %s", strftime_buf);
+    xEventGroupSetBits(wifi_event_group, SNTP_SET_BIT);
 
     vTaskDelete(NULL);//紫砂
 }
@@ -67,5 +68,5 @@ void sntp_time_init(){
 // sntp_set_time
 
     xTaskCreatePinnedToCore(sntp_set_time, "http_client_task", 1024 * 4, NULL, 5, &sntp_ste_time_task, 0);
-    
+
 }

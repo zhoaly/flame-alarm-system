@@ -5,9 +5,16 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "WiFi_my.h"
+#include "lvgl.h"
 
 extern EventGroupHandle_t wifi_event_group;  // WiFi 事件组
 
+char * location_text={0};
+char * Weather_text={0};
+char * Temperature_text={0};
+char * Update_text={0};
+
+ 
 // 定义日志标签，便于调试输出
 static const char *TAG = "HTTP_weather";
 TaskHandle_t http_Handle; // HTTP任务句柄
@@ -16,8 +23,8 @@ TaskHandle_t http_Handle; // HTTP任务句柄
 #define MAX_HTTP_OUTPUT_BUFFER 2048
 
 // 目标URL：用于获取天气信息
-static const char *URL = "https://api.seniverse.com/v3/weather/now.json?key=S5gbvt-EgnVL1tJ4B&location=xian&language=zh-Hans&unit=c";
-
+//static const char *URL = "https://api.seniverse.com/v3/weather/now.json?key=S5gbvt-EgnVL1tJ4B&location=xian&language=zh-Hans&unit=c";
+static const char *URL = "https://api.seniverse.com/v3/weather/now.json?key=S5gbvt-EgnVL1tJ4B&location=xian&language=en&unit=c";
 /**
  * @brief HTTP事件回调函数
  * @param evt 事件参数
@@ -98,14 +105,25 @@ void parse_json(const char *json_data)
         cJSON *loc_name = cJSON_GetObjectItem(location, "name");
         cJSON *weather_text = cJSON_GetObjectItem(now, "text");
         cJSON *temperature = cJSON_GetObjectItem(now, "temperature");
+
         
-        ESP_LOGI(TAG, "Location: %s", loc_name ? loc_name->valuestring : "Unknown");
-        ESP_LOGI(TAG, "Weather: %s", weather_text ? weather_text->valuestring : "Unknown");
-        ESP_LOGI(TAG, "Temperature: %s°C", temperature ? temperature->valuestring : "Unknown");
-        ESP_LOGI(TAG, "Last Update: %s", last_update->valuestring);
+        location_text=loc_name ? loc_name->valuestring: "Unknown";
+        Weather_text=weather_text ? weather_text->valuestring : "Unknown";
+        Temperature_text=temperature ? temperature->valuestring : "Unknown";
+        Update_text=last_update->valuestring;
+
+        ESP_LOGI(TAG, "Location: %s",location_text);
+        ESP_LOGI(TAG, "Weather: %s", Weather_text);
+        ESP_LOGI(TAG, "Temperature: %s°C",Temperature_text);
+        ESP_LOGI(TAG, "Last Update: %s",  Update_text);
+
+        // ESP_LOGI(TAG, "Location: %s", loc_name ? loc_name->valuestring : "Unknown");
+        // ESP_LOGI(TAG, "Weather: %s", weather_text ? weather_text->valuestring : "Unknown");
+        // ESP_LOGI(TAG, "Temperature: %s°C", temperature ? temperature->valuestring : "Unknown");
+        // ESP_LOGI(TAG, "Last Update: %s", last_update->valuestring);
     }
     
-    cJSON_Delete(root);
+    //cJSON_Delete(root);
 }
 
 /**
@@ -114,12 +132,12 @@ void parse_json(const char *json_data)
 void http_client_task()
 {
     //vTaskDelay(5000 / portTICK_PERIOD_MS); // 等待WiFi连接成功
-    xEventGroupWaitBits(wifi_event_group,WIFI_CONNECTED_BIT,pdFALSE,pdFALSE,(TickType_t)portMAX_DELAY);
-    
+    xEventGroupWaitBits(wifi_event_group,WIFI_CONNECTED_BIT,pdFALSE,pdFALSE,(TickType_t)portMAX_DELAY);\
     ESP_LOGI(TAG, "http_client_task start");
 
     char local_response_buffer[MAX_HTTP_OUTPUT_BUFFER + 1] = {0};
-
+    while (1){
+    
     esp_http_client_config_t config = {
         .url = URL,
         .event_handler = _http_event_handler,
@@ -156,7 +174,12 @@ void http_client_task()
     }
     
     esp_http_client_cleanup(client);
-    vTaskDelete(NULL);
+
+    xEventGroupSetBits(wifi_event_group, HTTP_WEATHER_SET_BIT);
+
+    vTaskDelay(pdMS_TO_TICKS(1000*60*15));//一分钟阻塞
+    //vTaskDelete(NULL);
+    }
 }
 
 /**

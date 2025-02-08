@@ -24,7 +24,7 @@
 #include "HTTP_weather.h"
 
 static const char *TAG = "main";
-
+extern EventGroupHandle_t wifi_event_group;  // WiFi 事件组
 // 主应用入口
 void app_main(void) {
 
@@ -38,11 +38,15 @@ void app_main(void) {
     LVGL_Init_my();
 
     lvgl_lodding();//lodding界面等待初始化完成
-
+    
     wifi_init_sta();
     sntp_time_init();
     HTTP_weather_init_my();
-    
+    xEventGroupWaitBits(wifi_event_group,
+                        HTTP_WEATHER_SET_BIT|SNTP_SET_BIT,
+                        pdFALSE,pdTRUE,
+                        (TickType_t)portMAX_DELAY);//等待初始化完成
+
     lvgl_demo_ui();
     
     //OLEDQueuehandle = xQueueCreate(10, sizeof(OLED_Queue));

@@ -50,7 +50,11 @@ lv_obj_t * new_label2_value1;  // 子界面2的标签
 lv_obj_t * new_label2_value2;  // 子界面2的标签
 lv_obj_t * new_label2_head;  // 子界面2的标签
 
-lv_obj_t * new_label3;//子界面的lable
+lv_obj_t * new_label3_Location;//子界面的lable
+lv_obj_t * new_label3_Weather;//子界面的lable
+lv_obj_t * new_label3_Temperature;//子界面的lable
+lv_obj_t * new_label3_Update;//子界面的lable
+
 lv_obj_t * new_label4;//子界面的lable
 lv_obj_t * new_label5;//子界面的lable
 
@@ -58,6 +62,7 @@ lv_style_t style_panel;               // 面板样式
 lv_style_t style_button_focu;         // 按钮处于焦点时的样式
 lv_style_t style_button_default;      // 按钮的默认样式
 lv_style_t style_text_default;      // 字体的默认样式
+lv_style_t style_text_mini;      // 字体的mini样式
 lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
 
@@ -126,7 +131,6 @@ static void lvgl_task_queue(){
 
             lv_label_set_text_fmt(new_label1_time_value, ":%ld", pdTICKS_TO_MS(lvgl_receive.time)/1000);
             lv_label_set_text_fmt(new_label1_mq2_value, ":%d", lvgl_receive.MQ2_value);
-
         }
     }
 }
@@ -306,7 +310,12 @@ void lvgl_style_init(){
 
     /* 初始化字体样式 */
     lv_style_init(&style_text_default);
-    lv_style_set_text_font(&style_text_default,&lv_font_montserrat_16);//14号字体
+    lv_style_set_text_font(&style_text_default,&lv_font_montserrat_16);//16号字体
+
+
+    lv_style_init(&style_text_mini);
+    lv_style_set_text_font(&style_text_mini,&lv_font_montserrat_12);//12号字体
+
 
 }
 
