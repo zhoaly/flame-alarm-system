@@ -68,6 +68,7 @@ extern lv_style_t style_button_focu;         // 按钮处于焦点时的样式
 extern lv_style_t style_button_default;      // 按钮的默认样式
 extern lv_style_t style_text_default;      // 按钮的默认样式
 extern lv_style_t style_text_mini;      // 字体的mini样式
+extern lv_style_t style_text_chinese;      // 字体的中文样式  
 extern lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 extern lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
 
@@ -207,12 +208,13 @@ void lvgl_demo_ui() {
         lv_obj_add_event_cb(btn[i], btn_event_handler, LV_EVENT_PRESSED, (void *)i); // 绑定点击事件
 
         label[i] = lv_label_create(btn[i]);
+        lv_obj_add_style(label[i], &style_text_chinese, 0);
         
         lv_obj_center(label[i]);
     }
-    lv_label_set_text_fmt(label[0], "MQ2 test");
-    lv_label_set_text_fmt(label[1], "time test");
-    lv_label_set_text_fmt(label[2], "weather test");
+    lv_label_set_text_fmt(label[0], "烟雾报警页面");
+    lv_label_set_text_fmt(label[1], "实时时间");
+    lv_label_set_text_fmt(label[2], "实时天气");
     lv_label_set_text_fmt(label[3], "page4");
     lv_label_set_text_fmt(label[4], "page5");
     lv_obj_scroll_to_view(btn[page_index], LV_ANIM_ON);
@@ -239,30 +241,30 @@ void lvgl_demo_ui_child_1(){
     lv_obj_add_event_cb(new_btn1, btn_event_handler, LV_EVENT_PRESSED, NULL); // 注册回调（返回主界面）
 
     new_label1_time = lv_label_create(new_btn1);
-    lv_obj_add_style(new_label1_time,&style_text_default,0);
+    lv_obj_add_style(new_label1_time,&style_text_chinese,0);
     lv_label_set_long_mode(new_label1_time, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label1_time, 35);//显示项目标题 宽度35
     lv_obj_set_pos(new_label1_time,10,0);
-    lv_label_set_text_fmt(new_label1_time, "time");//显示项目标题 宽度35
+    lv_label_set_text_fmt(new_label1_time, "运行时间(秒)");//显示项目标题 宽度35
     // lv_label_set_text_fmt(new_label1_time, "time:%ld", lvgl_receive.time);
 
     new_label1_mq2 = lv_label_create(new_btn1);
-    lv_obj_add_style(new_label1_mq2,&style_text_default,0);
+    lv_obj_add_style(new_label1_mq2,&style_text_chinese,0);
     lv_label_set_long_mode(new_label1_mq2, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label1_mq2, 35);//显示项目标题 宽度35
     lv_obj_set_pos(new_label1_mq2,10,16);
-    lv_label_set_text_fmt(new_label1_mq2, "mq2_vlaue");//显示项目标题 宽度35
+    lv_label_set_text_fmt(new_label1_mq2, "烟雾值");//显示项目标题 宽度35
     //lv_label_set_text_fmt(new_label1_mq2, "mq2_vlaue:%d", lvgl_receive.MQ2_value);
 
     new_label1_time_value = lv_label_create(new_btn1);
-    lv_obj_add_style(new_label1_time_value,&style_text_default,0);
+    lv_obj_add_style(new_label1_time_value,&style_text_chinese,0);
     //lv_label_set_long_mode(new_label1_time_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label1_time_value, 45);//显示项目数值 宽度45
     lv_obj_set_pos(new_label1_time_value,45,0);
     lv_label_set_text_fmt(new_label1_time_value, ":%ld", pdTICKS_TO_MS(lvgl_receive.time)/1000);//显示项目数值
 
     new_label1_mq2_value = lv_label_create(new_btn1);
-    lv_obj_add_style(new_label1_mq2_value,&style_text_default,0);
+    lv_obj_add_style(new_label1_mq2_value,&style_text_chinese,0);
     //lv_label_set_long_mode(new_label1_mq2_value, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label1_mq2_value, 45);//显示项目数值 宽度45
     lv_obj_set_pos(new_label1_mq2_value,45,16);
@@ -289,14 +291,14 @@ void lvgl_demo_ui_child_2(){
 
 
     new_label2_head =lv_label_create(new_btn2);
-    lv_obj_add_style(new_label2_head,&style_text_default,0);
+    lv_obj_add_style(new_label2_head,&style_text_chinese,0);
     lv_obj_set_pos(new_label2_head,0,0);
-    lv_label_set_text_fmt(new_label2_head, "time");
+    lv_label_set_text_fmt(new_label2_head, "当前时间:");
 
     new_label2_value1 = lv_label_create(new_btn2);
     new_label2_value2 = lv_label_create(new_btn2);
-    lv_obj_add_style(new_label2_value1,&style_text_default,0);
-    lv_obj_add_style(new_label2_value2,&style_text_default,0);
+    lv_obj_add_style(new_label2_value1,&style_text_chinese,0);
+    lv_obj_add_style(new_label2_value2,&style_text_chinese,0);
     lv_label_set_long_mode(new_label2_value1, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_label_set_long_mode(new_label2_value2, LV_LABEL_LONG_SCROLL_CIRCULAR);//长文本滚动模式
     lv_obj_set_width(new_label2_value1, 100);//显示项目数值 宽度100
@@ -341,9 +343,9 @@ void lvgl_demo_ui_child_3(){
     lv_obj_set_width(new_label3_Weather, 100);//显示项目数值 宽度100
     lv_obj_set_width(new_label3_Update, 100);//显示项目数值 宽度100
 
-    lv_obj_add_style(new_label3_Location,&style_text_mini,0);
-    lv_obj_add_style(new_label3_Temperature,&style_text_mini,0);
-    lv_obj_add_style(new_label3_Weather,&style_text_mini,0);
+    lv_obj_add_style(new_label3_Location,&style_text_chinese,0);
+    lv_obj_add_style(new_label3_Temperature,&style_text_chinese,0);
+    lv_obj_add_style(new_label3_Weather,&style_text_chinese,0);
     lv_obj_add_style(new_label3_Update,&style_text_mini,0);
 
     lv_obj_set_pos(new_label3_Location,0,0);
@@ -354,11 +356,11 @@ void lvgl_demo_ui_child_3(){
 
 
 
-    lv_label_set_text_fmt(new_label3_Location, "Location: %s",location_text);
+    lv_label_set_text_fmt(new_label3_Location, "地点: %s",location_text);
 
-    lv_label_set_text_fmt(new_label3_Temperature, "Weather: %s", Weather_text);
+    lv_label_set_text_fmt(new_label3_Temperature, "天气: %s", Weather_text);
 
-    lv_label_set_text_fmt(new_label3_Weather,  "Temp: %s°C",Temperature_text);
+    lv_label_set_text_fmt(new_label3_Weather,  "温度: %s °C",Temperature_text);
 
     lv_label_set_text_fmt(new_label3_Update,"%s",  Update_text);
 

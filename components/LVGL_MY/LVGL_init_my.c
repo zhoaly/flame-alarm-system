@@ -8,6 +8,8 @@
 #include "lvgl.h"
 #include "LCD_init.h"
 
+#include "gb2312_16.c"
+
 #include "time.h"
 extern esp_lcd_panel_handle_t panel_handle;
 extern esp_lcd_panel_io_handle_t io_handle;
@@ -63,6 +65,7 @@ lv_style_t style_button_focu;         // 按钮处于焦点时的样式
 lv_style_t style_button_default;      // 按钮的默认样式
 lv_style_t style_text_default;      // 字体的默认样式
 lv_style_t style_text_mini;      // 字体的mini样式
+lv_style_t style_text_chinese;      // 字体的中文样式
 lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
 
@@ -267,6 +270,8 @@ lv_disp_t* LVGL_Init_my(){
     lvgl_style_init();//初始化样式
     lvgl_scr_init();
 
+    LV_FONT_DECLARE(gb2312_16); //声明中文字体
+
     LVGLQueuehandle = xQueueCreate(10, sizeof(lvgl_Queue));//创建队列
 
     xTaskCreatePinnedToCore(lvgl_task_uart,"lvgl_task_uart",4096,NULL,2,&lvgl_task_Handle,0);
@@ -315,6 +320,9 @@ void lvgl_style_init(){
 
     lv_style_init(&style_text_mini);
     lv_style_set_text_font(&style_text_mini,&lv_font_montserrat_12);//12号字体
+
+    lv_style_init(&style_text_chinese);
+    lv_style_set_text_font(&style_text_chinese,&gb2312_16);//16号中文字体
 
 
 }

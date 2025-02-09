@@ -23,8 +23,10 @@ TaskHandle_t http_Handle; // HTTP任务句柄
 #define MAX_HTTP_OUTPUT_BUFFER 2048
 
 // 目标URL：用于获取天气信息
-//static const char *URL = "https://api.seniverse.com/v3/weather/now.json?key=S5gbvt-EgnVL1tJ4B&location=xian&language=zh-Hans&unit=c";
-static const char *URL = "https://api.seniverse.com/v3/weather/now.json?key=S5gbvt-EgnVL1tJ4B&location=xian&language=en&unit=c";
+//中文
+static const char *URL = "https://api.seniverse.com/v3/weather/now.json?key=S5gbvt-EgnVL1tJ4B&location=xian&language=zh-Hans&unit=c";
+//english
+//static const char *URL = "https://api.seniverse.com/v3/weather/now.json?key=S5gbvt-EgnVL1tJ4B&location=xian&language=en&unit=c";
 /**
  * @brief HTTP事件回调函数
  * @param evt 事件参数
