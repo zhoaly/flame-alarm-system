@@ -69,11 +69,13 @@ lv_style_t style_text_chinese;      // 字体的中文样式
 lv_style_transition_dsc_t trans_button_focu;    // 按钮获得焦点时的动画
 lv_style_transition_dsc_t trans_button_default; // 按钮恢复默认状态时的动画
 
+lv_group_t * g; // 默认组
+
 // 定义动画属性
 lv_style_prop_t props[] = {LV_STYLE_TRANSFORM_WIDTH, LV_STYLE_TRANSFORM_HEIGHT, 0};
 
-int page_index=0;
-int child_pag_flag=0;
+int  page_index=0;
+int  child_pag_flag=0;
 
 lv_disp_t *disp = NULL;//屏幕对象
 
@@ -164,62 +166,24 @@ static void lvgl_task_uart(){
             break;
         case LEFT:
             ESP_LOGI(TAG,"cmd is LEFT");
-            page_index+=1;
-            if (page_index>4)page_index=0;
-            ESP_LOGI(TAG,"page index:%d",page_index);
-            lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
+            lvgl_scroll_to_left_my();
+            // page_index+=1;
+            // if (page_index>4)page_index=0;
+            // ESP_LOGI(TAG,"page index:%d",page_index);
+            // lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
             break;
         case RIGHT:
             ESP_LOGI(TAG,"cmd is RIGHT");
-            page_index-=1;
-            if (page_index<0)page_index=4;
-            ESP_LOGI(TAG,"page index:%d",page_index);
-            lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
+            lvgl_scroll_to_right_my();
+            // page_index-=1;
+            // if (page_index<0)page_index=4;
+            // ESP_LOGI(TAG,"page index:%d",page_index);
+            // lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
             break;
         case CONFIRM:
             ESP_LOGI(TAG,"cmd is CONFIRM");
             //lv_obj_add_state(btn[page_index], LV_STATE_CHECKED);
-
-            if (child_pag_flag==1)
-            {
-                switch (page_index)
-                {
-                case 0:
-                    if (new_btn1!=NULL)
-                    lv_event_send(new_btn1,LV_EVENT_PRESSED,NULL);
-                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
-                    break;
-                case 1:
-                    if (new_btn2!=NULL)
-                    lv_event_send(new_btn2,LV_EVENT_PRESSED,NULL);
-                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
-                    break;
-                case 2:
-                    if (new_btn3!=NULL)
-                    lv_event_send(new_btn3,LV_EVENT_PRESSED,NULL);
-                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
-                    break;
-                case 3:
-                    if (new_btn4!=NULL)
-                    lv_event_send(new_btn4,LV_EVENT_PRESSED,NULL);
-                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
-                    break;
-                case 4:
-                    if (new_btn5!=NULL)
-                    lv_event_send(new_btn5,LV_EVENT_PRESSED,NULL);
-                    ESP_LOGI(TAG,"back to main, index is %d",page_index);
-                    break;
-                default:
-                    break;
-                }
-
-
-            }else if(child_pag_flag==0)
-            {
-                lv_event_send(btn[page_index],LV_EVENT_PRESSED,NULL);
-                ESP_LOGI(TAG,"go to child");
-                //lv_event_send(btn[page_index],LV_EVENT_RELEASED,NULL);
-            }
+            lvgl_key_enter_my();
             break;
         default:
             ESP_LOGI(TAG,"cmd is unknow");
@@ -269,6 +233,8 @@ lv_disp_t* LVGL_Init_my(){
 
     lvgl_style_init();//初始化样式
     lvgl_scr_init();
+    // g = lv_group_create();//创建默认组
+    // lv_group_set_default(g);
 
     LV_FONT_DECLARE(gb2312_16); //声明中文字体
 
@@ -336,4 +302,63 @@ void lvgl_scr_init(){
     scr_child_4 = lv_disp_get_scr_act(disp);
     scr_child_5 = lv_disp_get_scr_act(disp);
     scr_lodding = lv_disp_get_scr_act(disp);      // 屏幕对象
+}
+
+
+void lvgl_key_enter_my(){
+    //lv_event_send(btn[page_index],LV_EVENT_PRESSED,NULL);
+
+    if (child_pag_flag==1)//判断是否在子页面
+    {
+        switch (page_index)
+        {
+        case 0:
+            if (new_btn1!=NULL)
+            lv_event_send(new_btn1,LV_EVENT_PRESSED,NULL);
+            ESP_LOGI(TAG,"back to main, index is %d",page_index);
+            break;
+        case 1:
+            if (new_btn2!=NULL)
+            lv_event_send(new_btn2,LV_EVENT_PRESSED,NULL);
+            ESP_LOGI(TAG,"back to main, index is %d",page_index);
+            break;
+        case 2:
+            if (new_btn3!=NULL)
+            lv_event_send(new_btn3,LV_EVENT_PRESSED,NULL);
+            ESP_LOGI(TAG,"back to main, index is %d",page_index);
+            break;
+        case 3:
+            if (new_btn4!=NULL)
+            lv_event_send(new_btn4,LV_EVENT_PRESSED,NULL);
+            ESP_LOGI(TAG,"back to main, index is %d",page_index);
+            break;
+        case 4:
+            if (new_btn5!=NULL)
+            lv_event_send(new_btn5,LV_EVENT_PRESSED,NULL);
+            ESP_LOGI(TAG,"back to main, index is %d",page_index);
+            break;
+        default:
+            break;
+        }
+    }else if(child_pag_flag==0)//判断是否在主页面
+    {
+        lv_event_send(btn[page_index],LV_EVENT_PRESSED,NULL);
+        ESP_LOGI(TAG,"go to child");
+        //lv_event_send(btn[page_index],LV_EVENT_RELEASED,NULL);
+    }
+
+}
+
+
+void lvgl_scroll_to_left_my(){
+    page_index+=1;
+    if (page_index>4)page_index=0;
+    ESP_LOGI(TAG,"page index:%d",page_index);
+    lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
+}
+void lvgl_scroll_to_right_my(){
+    page_index-=1;
+    if (page_index<0)page_index=4;
+    ESP_LOGI(TAG,"page index:%d",page_index);
+    lv_obj_scroll_to_view(btn[page_index],LV_ANIM_ON);
 }

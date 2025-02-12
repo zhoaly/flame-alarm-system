@@ -22,9 +22,15 @@
 #include "WiFi_my.h"
 #include "sntp_set_time.h"
 #include "HTTP_weather.h"
+#include "button_my.h"
+#include "lv_port_indev.h"
+
 
 static const char *TAG = "main";
 extern EventGroupHandle_t wifi_event_group;  // WiFi 事件组
+
+
+
 // 主应用入口
 void app_main(void) {
 
@@ -36,16 +42,25 @@ void app_main(void) {
     ADC_Init();
     uart_init_my();
     LVGL_Init_my();
+    //lv_port_indev_init();
 
     lvgl_lodding();//lodding界面等待初始化完成
     
     wifi_init_sta();
     sntp_time_init();
     HTTP_weather_init_my();
+
+    //button_my_init(48,1);//初始化按键SW1:GPIO48,高电平有效
+    button_my_init_all();
+
     xEventGroupWaitBits(wifi_event_group,
                         HTTP_WEATHER_SET_BIT|SNTP_SET_BIT,
                         pdFALSE,pdTRUE,
                         (TickType_t)portMAX_DELAY);//等待初始化完成
+
+
+
+
 
     lvgl_demo_ui();
     

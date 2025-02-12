@@ -4,7 +4,7 @@
     "idf.openOcdConfigs": [
         "board/esp32s3-builtin.cfg"
     ],
-    "idf.port": "/dev/ttyACM1",
+    "idf.port": "/dev/ttyACM0",
     "idf.toolsPath": "/home/zhaoly/.espressif",
     "idf.flashType": "UART",
     "files.associations": {
@@ -22,6 +22,8 @@
         "lvgl_init_my.h": "c",
         "beep.h": "c",
         "uart_init_my.h": "c",
-        "wifi_my.h": "c"
+        "wifi_my.h": "c",
+        "iot_button.h": "c",
+        "button_my.h": "c"
     }
 }

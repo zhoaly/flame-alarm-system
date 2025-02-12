@@ -83,6 +83,7 @@ $<TARGET_FILE:__idf_spiffs>
 $<TARGET_FILE:__idf_touch_element>
 $<TARGET_FILE:__idf_usb>
 $<TARGET_FILE:__idf_wifi_provisioning>
+$<TARGET_FILE:__idf_espressif__button>
 $<TARGET_FILE:__idf_espressif__esp_lcd_sh1107>
 $<TARGET_FILE:__idf_lvgl__lvgl>
 $<TARGET_FILE:__idf_espressif__esp_lvgl_port>
@@ -92,6 +93,7 @@ $<TARGET_FILE:__idf_HTTP_MY>
 $<TARGET_FILE:__idf_LCD>
 $<TARGET_FILE:__idf_LED>
 $<TARGET_FILE:__idf_UART_MY>
+$<TARGET_FILE:__idf_button_MY>
 $<TARGET_FILE:__idf_LVGL_MY>
 $<TARGET_FILE:__idf_beep>
 $<TARGET_FILE:__idf_mq2>

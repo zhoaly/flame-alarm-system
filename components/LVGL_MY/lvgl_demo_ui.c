@@ -219,14 +219,12 @@ void lvgl_demo_ui() {
     lv_label_set_text_fmt(label[4], "page5");
     lv_obj_scroll_to_view(btn[page_index], LV_ANIM_ON);
 
-
+    lv_refr_now(disp);
 }
 
 /* 子界面1的 UI函数 */
 void lvgl_demo_ui_child_1(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_1");
-    lvgl_port_unlock();
-
     lv_obj_clean(scr); // 清除上个界面
     lv_scr_load_anim(scr_child_1, LV_SCR_LOAD_ANIM_OVER_TOP, 100, 0, true);
 
@@ -275,8 +273,6 @@ void lvgl_demo_ui_child_1(){
 /* 子界面2的 UI函数 */
 void lvgl_demo_ui_child_2(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_2");
-    
-    lvgl_port_unlock();
     lv_obj_clean(scr); // 清除上个界面
     lv_scr_load_anim(scr_child_2, LV_SCR_LOAD_ANIM_OVER_TOP, 100, 0, true);
 
@@ -315,7 +311,6 @@ void lvgl_demo_ui_child_2(){
 /* 子界面3的 UI函数 */
 void lvgl_demo_ui_child_3(){
     ESP_LOGI(TAG, "lvgl_demo_ui_child_3");
-    lvgl_port_unlock();
     lv_obj_clean(scr); // 清除上个界面
     lv_scr_load_anim(scr_child_3, LV_SCR_LOAD_ANIM_OVER_TOP, 500, 0, true);
 
@@ -357,11 +352,8 @@ void lvgl_demo_ui_child_3(){
 
 
     lv_label_set_text_fmt(new_label3_Location, "地点: %s",location_text);
-
     lv_label_set_text_fmt(new_label3_Temperature, "天气: %s", Weather_text);
-
     lv_label_set_text_fmt(new_label3_Weather,  "温度: %s °C",Temperature_text);
-
     lv_label_set_text_fmt(new_label3_Update,"%s",  Update_text);
 
 }

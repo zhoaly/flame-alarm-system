@@ -20,4 +20,9 @@ typedef enum {
 lv_disp_t* LVGL_Init_my();
 void lvgl_style_init();
 void lvgl_scr_init();
+void lvgl_key_enter_my();
+
+void lvgl_scroll_to_left_my();
+void lvgl_scroll_to_right_my();
+
 #endif

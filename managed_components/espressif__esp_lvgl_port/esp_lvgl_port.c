@@ -487,89 +487,89 @@ esp_err_t lvgl_port_remove_encoder(lv_indev_t *encoder)
 #endif
 
 #ifdef ESP_LVGL_PORT_BUTTON_COMPONENT
-lv_indev_t *lvgl_port_add_navigation_buttons(const lvgl_port_nav_btns_cfg_t *buttons_cfg)
-{
-    esp_err_t ret = ESP_OK;
-    lv_indev_t *indev = NULL;
-    assert(buttons_cfg != NULL);
-    assert(buttons_cfg->disp != NULL);
+// lv_indev_t *lvgl_port_add_navigation_buttons(const lvgl_port_nav_btns_cfg_t *buttons_cfg)
+// {
+//     esp_err_t ret = ESP_OK;
+//     lv_indev_t *indev = NULL;
+//     assert(buttons_cfg != NULL);
+//     assert(buttons_cfg->disp != NULL);
 
-    /* Touch context */
-    lvgl_port_nav_btns_ctx_t *buttons_ctx = malloc(sizeof(lvgl_port_nav_btns_ctx_t));
-    if (buttons_ctx == NULL) {
-        ESP_LOGE(TAG, "Not enough memory for buttons context allocation!");
-        return NULL;
-    }
+//     /* Touch context */
+//     lvgl_port_nav_btns_ctx_t *buttons_ctx = malloc(sizeof(lvgl_port_nav_btns_ctx_t));
+//     if (buttons_ctx == NULL) {
+//         ESP_LOGE(TAG, "Not enough memory for buttons context allocation!");
+//         return NULL;
+//     }
 
-    /* Previous button */
-    if (buttons_cfg->button_prev != NULL) {
-        buttons_ctx->btn[LVGL_PORT_NAV_BTN_PREV] = iot_button_create(buttons_cfg->button_prev);
-        ESP_GOTO_ON_FALSE(buttons_ctx->btn[LVGL_PORT_NAV_BTN_PREV], ESP_ERR_NO_MEM, err, TAG, "Not enough memory for button create!");
-    }
+//     /* Previous button */
+//     if (buttons_cfg->button_prev != NULL) {
+//         buttons_ctx->btn[LVGL_PORT_NAV_BTN_PREV] = iot_button_create(buttons_cfg->button_prev);
+//         ESP_GOTO_ON_FALSE(buttons_ctx->btn[LVGL_PORT_NAV_BTN_PREV], ESP_ERR_NO_MEM, err, TAG, "Not enough memory for button create!");
+//     }
 
-    /* Next button */
-    if (buttons_cfg->button_next != NULL) {
-        buttons_ctx->btn[LVGL_PORT_NAV_BTN_NEXT] = iot_button_create(buttons_cfg->button_next);
-        ESP_GOTO_ON_FALSE(buttons_ctx->btn[LVGL_PORT_NAV_BTN_NEXT], ESP_ERR_NO_MEM, err, TAG, "Not enough memory for button create!");
-    }
+//     /* Next button */
+//     if (buttons_cfg->button_next != NULL) {
+//         buttons_ctx->btn[LVGL_PORT_NAV_BTN_NEXT] = iot_button_create(buttons_cfg->button_next);
+//         ESP_GOTO_ON_FALSE(buttons_ctx->btn[LVGL_PORT_NAV_BTN_NEXT], ESP_ERR_NO_MEM, err, TAG, "Not enough memory for button create!");
+//     }
 
-    /* Enter button */
-    if (buttons_cfg->button_enter != NULL) {
-        buttons_ctx->btn[LVGL_PORT_NAV_BTN_ENTER] = iot_button_create(buttons_cfg->button_enter);
-        ESP_GOTO_ON_FALSE(buttons_ctx->btn[LVGL_PORT_NAV_BTN_ENTER], ESP_ERR_NO_MEM, err, TAG, "Not enough memory for button create!");
-    }
+//     /* Enter button */
+//     if (buttons_cfg->button_enter != NULL) {
+//         buttons_ctx->btn[LVGL_PORT_NAV_BTN_ENTER] = iot_button_create(buttons_cfg->button_enter);
+//         ESP_GOTO_ON_FALSE(buttons_ctx->btn[LVGL_PORT_NAV_BTN_ENTER], ESP_ERR_NO_MEM, err, TAG, "Not enough memory for button create!");
+//     }
 
-    /* Button handlers */
-    for (int i = 0; i < LVGL_PORT_NAV_BTN_CNT; i++) {
-        ESP_ERROR_CHECK(iot_button_register_cb(buttons_ctx->btn[i], BUTTON_PRESS_DOWN, lvgl_port_btn_down_handler, buttons_ctx));
-        ESP_ERROR_CHECK(iot_button_register_cb(buttons_ctx->btn[i], BUTTON_PRESS_UP, lvgl_port_btn_up_handler, buttons_ctx));
-    }
+//     /* Button handlers */
+//     for (int i = 0; i < LVGL_PORT_NAV_BTN_CNT; i++) {
+//         ESP_ERROR_CHECK(iot_button_register_cb(buttons_ctx->btn[i], BUTTON_PRESS_DOWN, lvgl_port_btn_down_handler, buttons_ctx));
+//         ESP_ERROR_CHECK(iot_button_register_cb(buttons_ctx->btn[i], BUTTON_PRESS_UP, lvgl_port_btn_up_handler, buttons_ctx));
+//     }
 
-    buttons_ctx->btn_prev = false;
-    buttons_ctx->btn_next = false;
-    buttons_ctx->btn_enter = false;
+//     buttons_ctx->btn_prev = false;
+//     buttons_ctx->btn_next = false;
+//     buttons_ctx->btn_enter = false;
 
-    /* Register a touchpad input device */
-    lv_indev_drv_init(&buttons_ctx->indev_drv);
-    buttons_ctx->indev_drv.type = LV_INDEV_TYPE_ENCODER;
-    buttons_ctx->indev_drv.disp = buttons_cfg->disp;
-    buttons_ctx->indev_drv.read_cb = lvgl_port_navigation_buttons_read;
-    buttons_ctx->indev_drv.user_data = buttons_ctx;
-    buttons_ctx->indev_drv.long_press_repeat_time = 300;
-    indev = lv_indev_drv_register(&buttons_ctx->indev_drv);
+//     /* Register a touchpad input device */
+//     lv_indev_drv_init(&buttons_ctx->indev_drv);
+//     buttons_ctx->indev_drv.type = LV_INDEV_TYPE_ENCODER;
+//     buttons_ctx->indev_drv.disp = buttons_cfg->disp;
+//     buttons_ctx->indev_drv.read_cb = lvgl_port_navigation_buttons_read;
+//     buttons_ctx->indev_drv.user_data = buttons_ctx;
+//     buttons_ctx->indev_drv.long_press_repeat_time = 300;
+//     indev = lv_indev_drv_register(&buttons_ctx->indev_drv);
 
-err:
-    if (ret != ESP_OK) {
-        for (int i = 0; i < LVGL_PORT_NAV_BTN_CNT; i++) {
-            if (buttons_ctx->btn[i] != NULL) {
-                iot_button_delete(buttons_ctx->btn[i]);
-            }
-        }
+// err:
+//     if (ret != ESP_OK) {
+//         for (int i = 0; i < LVGL_PORT_NAV_BTN_CNT; i++) {
+//             if (buttons_ctx->btn[i] != NULL) {
+//                 iot_button_delete(buttons_ctx->btn[i]);
+//             }
+//         }
 
-        if (buttons_ctx != NULL) {
-            free(buttons_ctx);
-        }
-    }
+//         if (buttons_ctx != NULL) {
+//             free(buttons_ctx);
+//         }
+//     }
 
-    return indev;
-}
+//     return indev;
+// }
 
-esp_err_t lvgl_port_remove_navigation_buttons(lv_indev_t *buttons)
-{
-    assert(buttons);
-    lv_indev_drv_t *indev_drv = buttons->driver;
-    assert(indev_drv);
-    lvgl_port_nav_btns_ctx_t *buttons_ctx = (lvgl_port_nav_btns_ctx_t *)indev_drv->user_data;
+// esp_err_t lvgl_port_remove_navigation_buttons(lv_indev_t *buttons)
+// {
+//     assert(buttons);
+//     lv_indev_drv_t *indev_drv = buttons->driver;
+//     assert(indev_drv);
+//     lvgl_port_nav_btns_ctx_t *buttons_ctx = (lvgl_port_nav_btns_ctx_t *)indev_drv->user_data;
 
-    /* Remove input device driver */
-    lv_indev_delete(buttons);
+//     /* Remove input device driver */
+//     lv_indev_delete(buttons);
 
-    if (buttons_ctx) {
-        free(buttons_ctx);
-    }
+//     if (buttons_ctx) {
+//         free(buttons_ctx);
+//     }
 
-    return ESP_OK;
-}
+//     return ESP_OK;
+// }
 #endif
 
 #ifdef ESP_LVGL_PORT_USB_HOST_HID_COMPONENT
