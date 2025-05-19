@@ -135,6 +135,7 @@ void ADC_task() {
 
         // 判断是否需要激活蜂鸣器
         if (adc.MQ2_value > 50 || adc.flame_value < 90) {
+            ESP_LOGI(TAG, "MQ2 value: %d,flame alarm trigger", adc.MQ2_value);
             flag_beep = 1;
         } else {
             flag_beep = 0;

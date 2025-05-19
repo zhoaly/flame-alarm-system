@@ -13,8 +13,8 @@
 #include "lwip/sys.h"
 
 
-#define CONFIG_ESP_WIFI_SSID "Xiaomi_7F5C"
-#define CONFIG_ESP_WIFI_PASSWORD "08080808"
+#define CONFIG_ESP_WIFI_SSID "Xiaomi MIX Flip"
+#define CONFIG_ESP_WIFI_PASSWORD "123456789"
 #define CONFIG_ESP_MAXIMUM_RETRY 5
 #define CONFIG_ESP_WIFI_PW_ID ""
 

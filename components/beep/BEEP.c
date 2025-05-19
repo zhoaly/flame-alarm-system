@@ -1,10 +1,12 @@
 #include "BEEP.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_log.h"
 
 bool flag_beep = 0;
 TaskHandle_t BEEPHandle;
 
+ static const char *TAG = "BEEP";
 void BEEP_init(void)
 {
     // Prepare and then apply the LEDC PWM timer configuration
@@ -47,8 +49,10 @@ void beep_task() {
     while (1) {
         if (flag_beep == 1) {
             BEEP_Set_duty(4000);  // 激活蜂鸣器
+            ESP_LOGI(TAG, "BEEP ON");
         } else {
             BEEP_Set_duty(0);    // 关闭蜂鸣器
+            ESP_LOGI(TAG, "BEEP OFF");
         }
         vTaskDelay(pdMS_TO_TICKS(300));
         BEEP_Set_duty(0);        // 确保蜂鸣器关闭
